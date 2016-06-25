@@ -1,0 +1,60 @@
+1.
+#include <stdio.h>
+#include<math.h>
+
+int main()
+{
+	int num, k, j;
+	int sum = 0;
+
+	for (num = 101; num < 200; num = num + 2)
+	{
+		k = sqrt(num);
+		for (j = 2; j <= k; j++)
+		{
+			if (num%j == 0)
+				break;
+		}
+		if (j >= k + 1)
+		{
+			printf("%d\t", num);
+			sum++;
+		}
+		if (sum % 5 == 0)
+			printf("\n");
+	}
+	getch();
+	return 0;
+}
+
+2.
+#include <stdio.h>
+int main()
+{
+	int k, j;
+	for (k = 1; k <= 9; k++)
+	{
+		for (j = 0; j <= k; j++)
+		{
+			printf("%d*%d=%d", k, j, j*k);
+		}
+
+		printf("\n");
+	}
+        getch();
+	return 0;
+}
+
+3.
+#include<stdio.h>
+int main()
+{
+	int year;
+	printf("1000年至2000年是闰年：\n");
+	for (year = 1000; year <= 2000; year++)
+	{
+		if ((year % 4 == 0 && year % 100 != 100) || (year % 400 == 0))
+			printf("%d\t", year);
+	}
+	return 0;
+}
