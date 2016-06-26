@@ -1,0 +1,110 @@
+#include<stdio.h>
+int main()
+{
+	int number1 = 10;
+	int number2 = 15;
+	int number3 = 0;
+
+	number3 = number2;
+	number2 = number1;
+	number1 = number3;
+
+	printf("number1=%d , number2=%d", number1, number2);
+
+	system("pause");
+	return 0;
+}
+2.
+
+#include<stdio.h>
+
+int main()
+{
+	int num1 = 15;
+	int num2 = 10;
+
+	num1 = (num1+num2)-num1;
+	num2 = (num1+num2)-num2;
+
+	printf("num1=%d ,num2=%d ", num1, num2);
+
+	getch();
+}
+
+
+#include<stdio.h>
+
+int main()
+{
+	int num1 = 15;
+	int num2 = 10;
+
+	num1 = num1^num2;
+	num2 = num1^num2;
+	num1 = num1^num2;
+
+	printf("num1=%d ,num2=%d ", num1, num2);
+
+	getch();
+}
+
+3.
+#define _CRT_SECURE_NO_WARNINGS 1
+
+#include<stdio.h>
+
+int main()
+{
+	int number[10] = { 0 };
+	int k, j;
+	printf("请输入10个整数：\n");
+	for (k = 0; k < 10; k++)
+	{
+		scanf("%d", &number[k]);
+	}
+
+	for (k = 0; k < 10; k++)
+	{
+		for (k = 0; k<10; k++)
+		{
+			if (number[k]>number[k + 1])
+			{
+				j = number[k + 1];
+				number[k + 1] = number[1];
+				number[1] = j;
+			}
+		}
+	}
+
+	printf("最大值：%d", number[9]);
+	getch();
+	return 0;
+}
+
+4.
+
+#include<stdio.h>
+
+int  count_one_bits(unsigned int value)
+{
+	// 返回 1的位数
+	int count = 0;
+	while (value!=0)
+	{
+		if (value % 2 == 1)
+		{
+			count++;
+		}
+		value = value / 2;
+	}
+	return count;
+}
+int main()
+{
+	int number;
+	printf("请输入一个整数：");
+	scanf("%d", &number);
+	printf("1的个数：%d", count_one_bits(number));
+
+	getch();
+}
