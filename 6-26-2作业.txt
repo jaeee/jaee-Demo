@@ -1,0 +1,125 @@
+1.将数组A中的内容和数组B中的内容进行交换。（数组一样大）
+int main()
+{
+	char arr1[3] = { 'A', 'B', 'C' };
+	char arr2[3] = { 'a', 'b', 'c' };
+	
+	for (int i = 0; i<=3; i++)
+	{
+		int temp = 0;
+		temp = arr2[i];
+		arr2[i] = arr1[i];
+		arr1[i] = temp;
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		printf(" %c", arr1[i]);
+	}
+	printf("\n");
+	for(int i = 0; i < 3; i++)
+	{
+		printf(" %c", arr2[i]);
+	}
+
+	system("pause");
+	return 0;
+}
+2.获取一个数二进制序列中所有的偶数位和奇数位，分别输出二进制序列。
+int main()
+{
+	int count = 0;//计算二进制 位数
+	int arr[32] = { 0 };
+	int i = 0;
+	int value;
+	printf("请输入一个数：");
+	scanf("%d", &value);
+
+	while (value) 
+	{
+		arr[i++] = value % 2;
+		value /= 2;
+		count++;
+		
+	}
+	printf("奇数序列\n");
+	for (i = count; i >= 0; i -= 2)
+	{
+		printf("%d ", arr[i]);
+
+	}
+	printf("\n");
+	printf("偶数序列\n");
+	for (i = count - 1; i >= 0; i -= 2)
+	{
+		printf("%d ", arr[i]);
+
+	}
+	printf("\n");
+	system("pause");
+	return 0;
+ }
+3.将三个数按从大到小输出。
+
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+int main()
+{
+	int number[3] = { 0 };
+	int j;
+	printf("请输入3个整数：\n");
+	for (int k = 0; k < 3; k++)
+	{
+		scanf("%d", &number[k]);
+	}
+	for (int i = 0; i < 3-1; i++)
+	{
+		for (int m = 0; m<3-1 - i; m++)
+		{
+			if (number[m]>number[m + 1])
+			{
+				j = number[m + 1];
+				number[m + 1] = number[1];
+				number[1] = j;
+			}
+		}
+	}
+	printf("\n排列顺序为：\n");
+	for (int i = 2; i >= 0; i--)
+	{
+		printf("%d ", number[i]);
+	}
+	system("pause");
+	return 0;
+}
+4.求两个数的最大公约数。
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+int main()
+{
+	int number1, number2;
+	int MAX;
+	int k;
+	printf("请输入两个整数：");
+	scanf("%d,%d", &number1, &number2);
+	if (number1 > number2)
+		MAX = number1;
+	else
+		MAX = number2;
+
+	for (k = MAX / 2; k > 0; k--)
+	{
+		if (MAX%k == 0)
+		{
+			printf("最大公约数：%d", k);
+			break;
+		}
+	}
+	system("pause");
+	return 0;
+}
