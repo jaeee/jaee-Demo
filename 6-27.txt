@@ -1,0 +1,30 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+int main()
+{
+	char arr1[3] = { 'A', 'B', 'C' };
+	char arr2[3] = { 'a', 'b', 'c' };
+	
+	for (int i = 0; i<=3; i++)
+	{
+		int temp = 0;
+		temp = arr2[i];
+		arr2[i] = arr1[i];
+		arr1[i] = temp;
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		printf(" %c", arr1[i]);
+	}
+	printf("\n");
+	for(int i = 0; i < 3; i++)
+	{
+		printf(" %c", arr2[i]);
+	}
+
+	system("pause");
+	return 0;
+}
