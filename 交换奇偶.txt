@@ -1,0 +1,22 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#define EXP 0.00000001
+//数的二进制表示中奇数位和偶数位进行交换
+
+int main()
+{
+	int num;
+	scanf("%d", &num);
+	//偶数位
+	int a = (num & 0xaaaaaaaa)>>1;
+	int b = (num & 0x55555555) << 1;
+
+	printf("%d", a | b);
+	
+
+	system("pause");
+	return 0;
+}

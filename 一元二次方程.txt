@@ -1,0 +1,38 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+
+//一元二次方程求解
+
+#define EXP 0.00000001
+int main()
+{
+	/*double a=1, b=-5, c=6;*/
+	double a, b, c;
+	printf("请输入一元二次方程的三个系数：");
+	scanf("%lf%lf%lf", &a, &b, &c);
+	double num = b*b - 4 * a*c;
+
+	if (a>-EXP&&a<EXP)
+	{
+		printf("不是一元二次方程！");
+	}
+	if (num == EXP)
+	{
+		printf("有两个相同的实数根：%lf  ",(-b+sqrt(num))/(2*a));
+
+	}
+	else if (num>EXP)
+	{
+		printf("有两个不相等的实数根：%lf  ,%lf  \n", (-b + sqrt(num)) / (2 * a), (-b - sqrt(num)) / (2 * a));
+	}
+	else
+	{
+		printf("没有实数根！");
+	}
+
+	system("pause");
+	return 0;
+}

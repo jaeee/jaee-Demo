@@ -1,0 +1,27 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+
+int main()
+{
+	char ch;
+	printf("ÇëÊäÈëÒ»¸ö×Ö·û£º");
+	ch = getchar();
+	
+	if (ch >= 'a'&&ch <= 'z')
+	{
+		ch =ch- 32;
+	}
+	else if (ch >= 'A'&&ch <= 'Z')
+	{
+		ch += 32;
+	}
+	else
+		return;
+
+	putchar(ch);
+	printf("\n");
+	system("pause");
+	return 0;
+
+}
