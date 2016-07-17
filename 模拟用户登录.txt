@@ -1,0 +1,21 @@
+int main()
+{
+	int n = 3;
+	while (n)
+	{
+		printf("用户名：my_login\n请输入用户密码：");
+		char pw[10];
+		//strcmp字符串比较
+		if (strcmp(gets(pw),"123456")==0)
+		{
+			printf("密码正确，登录成功\n");
+			break;
+		}
+		else
+			printf("输入错误，请重新输入！\n");
+		n--;
+	}
+		/*exit(n==0);*/
+		system("pause");
+		return 0;
+}

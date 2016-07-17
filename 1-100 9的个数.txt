@@ -1,0 +1,24 @@
+int main()
+{
+	int num = 1;
+	int Num = 1;
+	int sum = 0;
+	for (int i = 0; i < 100; i++)
+	{
+		num = Num;
+		while (num)
+		{
+			if ( num % 10 == 9)
+			{
+				sum++;
+			}
+			num = num / 10;
+		}
+
+		Num++;
+	}
+
+	printf("1到 100 的所有整数中出现%d次数字9\n", sum);
+	system("pause");
+	return 0;
+}

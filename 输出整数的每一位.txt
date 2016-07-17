@@ -1,0 +1,17 @@
+int main()
+{
+	int num;
+	printf("请输入一个整数：");
+	scanf("%d", &num);
+	int i = 1;
+
+	while (num)
+	{
+		int Num = num % 10;
+		num = num / 10;
+		printf("第%d位：%d\n",i,Num);
+		i++;
+	}
+	system("pause");
+	return 0;
+}
