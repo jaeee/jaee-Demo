@@ -1,0 +1,11 @@
+int main()
+{
+	int num1 = 0;
+	int num2 = 0;
+	printf("输入两个值：");
+	scanf("%d%d", &num1, &num2);
+	printf("%d 和 %d 的平均值为：%d", num1, num2, ((num1&num2) + ((num1^num2) >> 1)));
+
+	system("pause");
+	return 0;
+}

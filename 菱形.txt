@@ -1,0 +1,58 @@
+void rhombus(int line)
+{
+	char arr1[50] = { 0 };
+	memset(arr1, '*', line);
+	char arr2[50] = { 0 };
+	memset(arr2,' ', line);
+	char arr3[50] = { 0 };
+	memset(arr3, '*', line);
+	char arr4[50] = { 0 };
+	memset(arr4, ' ', line);
+	int right = line;
+	int k = right / 2, m = right / 2;
+
+	for (int i = 0; i < ((line + 1) / 2); i++)
+	{
+		 
+		if (k == right / 2)
+		{
+			arr2[k] = arr1[0];
+		}
+		else
+		{
+			arr2[k] = arr1[0];
+			arr2[m] = arr1[0];
+		}
+		puts(arr2);
+		k++; 
+		m--;
+	}
+	k--;
+	m++;
+	for (int i = 0; i < ((line + 1) / 2)-1; i++)
+	{
+		if (m == right / 2)
+		{
+			arr3[k] = arr4[0];
+		}
+		else
+		{
+			arr3[k] = arr4[0];
+			arr3[m] = arr4[0];
+		}
+		k--;
+		m++;
+		puts(arr3);
+	}
+}
+int main()
+{
+	printf("请输入展示图形行数：");
+	int line = 0;
+	scanf("%d", &line);
+
+	rhombus(line);
+
+	system("pause");
+	return 0;
+}

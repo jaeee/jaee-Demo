@@ -1,0 +1,62 @@
+void menu()
+{
+	printf("*************************\n");
+	printf("        0.Exit           \n");
+	printf("        1.Play           \n");
+	printf("*************************\n");
+}
+
+enum OP
+{
+	Exit,
+	Play
+};
+
+void playgame()
+{
+	srand((unsigned)time(NULL));
+	int ret = rand() % 101;
+	printf("请输入：");
+	while (1)
+	{
+		int ran = 0;
+		scanf("%d", &ran);
+		if (ran > ret)
+		{
+			printf("对不起，你猜大了！\n");
+		}
+		else if (ran < ret)
+		{
+			printf("对不起，你猜小了！\n");
+		}
+		else
+		{
+			printf("恭喜你，猜对了！\n");
+			break;
+		}
+		
+	}
+}
+
+int main()
+{
+	int i = 1;
+	while (i)
+	{
+		menu();
+		printf("请输入选项：");
+		int k=0;
+		scanf("%d", &k);
+		switch (k)
+		{
+		case Exit:
+			exit(0);
+		case Play:
+			playgame();
+			break;
+	
+		}
+	}
+	system("pause");
+	return 0;
+}

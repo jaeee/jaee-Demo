@@ -1,0 +1,21 @@
+int main()
+{
+	int num = 101;
+	int k = 0, m = 0, n = 0;
+	for (int i = 101; i < 1000; i++)
+	{
+		k = num % 10;//个位
+		m = num / 10 % 10;//十位
+		n = num / 100;//百位
+
+		if (num == k*k*k + m*m*m + n*n*n)
+		{
+			printf("%5d\n", num);
+		}
+		num++;
+	}
+
+	
+	system("pause");
+	return 0;
+}
