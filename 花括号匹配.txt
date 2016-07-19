@@ -1,0 +1,33 @@
+int main()
+{
+	char ch;
+	int left = 0;
+	int right = 0;
+
+	while ((ch = getchar()) != EOF)
+	{
+		if (ch == '{')
+		{
+			left++;
+		}
+		if (ch == '}')
+		{
+			if (left > right)
+			{
+				right++;
+			}
+			else
+			{
+				printf("≤ª∆•≈‰£°");
+				return 0;
+			}
+		}
+	}
+
+	if (left==right)
+		printf("∆•≈‰£°");
+	else
+		printf("≤ª∆•≈‰");
+	system("pause");
+	return 0;
+}

@@ -1,0 +1,18 @@
+//Sn=2+22+222+...
+int main()
+{
+	double Sn = 0;
+	int n = 0;
+	int a = 0;
+	printf("请输入n,a的值：");
+	scanf("%d%d", &n, &a);
+	for (int i = 0; i <= n; i++)
+	{
+		Sn += a* n*pow(10, i);
+		n--;
+	}
+
+	printf("前n项和Sn=%f\n", Sn);
+	system("pause");
+	return 0;
+}

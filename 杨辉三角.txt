@@ -1,0 +1,25 @@
+int main()
+{
+	int i = 0, j = 0, n = 0;
+	int arr[17] = { 0, 1 };
+	int k=0, m=0;
+	while (n<1 || n>16)
+	{
+		printf("请输入杨辉三角的行数:");
+		scanf("%d", &n);
+	}
+	for (i = 1; i <= n; i++)
+	{
+		k = 0;
+		for (j = 1; j <= i; j++)
+		{
+			m = arr[j];
+			arr[j] = k + m;
+			k = m;
+			printf("%5d", arr[j]);
+		}
+		printf("\n");
+	}
+	system("pause");
+	return 0;
+}
