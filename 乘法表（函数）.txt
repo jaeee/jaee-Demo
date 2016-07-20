@@ -1,0 +1,22 @@
+void tables(int line, int column)
+{
+	for (int i = 1; i <= line; i++)
+	{
+		for (int j = 1; j <= i; j++)
+		{
+			printf("%d*%d=%d\t", i, j, i*j);
+		}
+		printf("\n");
+	}
+}
+
+int main()
+{
+	int line = 9;
+	int column = 9;
+
+	tables(line, column);
+
+	system("pause");
+	return 0;
+}

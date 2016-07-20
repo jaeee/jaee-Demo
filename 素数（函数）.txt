@@ -1,0 +1,22 @@
+int prime(int* num)
+{
+	for (int i = 1; i <= sqrt(*num); i++)
+	{
+		if ((*num)%i == 0)
+			return -1;
+	}
+	return 1;
+}
+int main()
+{
+	int num = 0;
+	scanf("%d", &num);
+	int ret = prime(&num);
+	if (ret)
+		printf("是素数！");
+	else
+		printf("不是素数！");
+
+	system("pause");
+	return 0;
+}
