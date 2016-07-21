@@ -1,0 +1,50 @@
+1.  //²»Ì«È·¶¨¡£¡£
+int main()
+{
+	int a=0, b=0, c=0, d=0, e=0;
+
+	//char flag[10] = { (b == one) || (a != three), (b != one) || (a == three), (b == two) || (e != four), (b != two) || (e == four),
+	//	(c = one) || (d != two), (c != one) || (d == two), (c == five) || (d != three), (c != five) || (d == three), (e == four) || (a != one),
+	//	(e != four) || (a == one) };
+	int count=0;
+
+	for (a = 1; a <= 5; a++)
+	{
+		for (b = 1; b <=5; b++)
+		{
+			for (c = 1; c <= 5; c++)
+			{
+				for (d = 1; d <=5; d++)
+				{
+					for (e = 1; e <=5; e++)
+					{
+						if((b == 1) + (a == 3) == 1 && (b == 2) + (e == 4) == 1 && (c == 1) + (d == 2) == 1 && (c == 5) + (d == 3) == 1 && (e == 4) + (a == 1) == 1)
+						{
+							printf("a=%d,b=%d,c=%d,d=%d,e=%d\n",a,b,c,d,e );
+							count++;
+						}
+					}
+				}
+			}
+		}
+	}
+	printf("count=%d", count);
+	system("pause");
+	return 0;
+}
+
+2.  
+int main()
+{
+	int kill = 0;
+	for (kill = 'a'; kill < 'e'; kill++)
+	{
+		if (3 == (kill != 'a') + (kill == 'c') + (kill == 'd') + (kill != 'd'))
+		{
+			printf("%c", kill);
+		}
+	}
+
+	system("pause");
+	return 0;
+}
