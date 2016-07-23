@@ -1,0 +1,29 @@
+int main()
+{
+	char a1[20];
+	char a2[] = "i am here";
+
+	strcpy(a1, a2);
+	puts(a1);
+	char a3[] = "hello world";
+
+	strcat(a2, a3);
+	puts(a2);
+	
+	printf("\n");
+	
+	int ret = strcmp(a1, a2);//字符串比较相等0，大于1，小于-1
+	printf("%d\n", ret);
+	
+	printf("%d\n", strlen(a3));
+
+	char* p;
+	p = strchr(a3, 'o');
+	printf("%p\n", p);
+   
+	p = strstr(a2, a3);//判断子串
+	printf("%p\n", p);
+
+	system("pause");
+	return 0;
+}
