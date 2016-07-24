@@ -1,0 +1,20 @@
+int value(int num)
+{
+	int count = 0;
+	while (num > 0)
+	{
+		if ((num & 1) == 1)
+			count++;
+		num >>= 1;
+	}
+	return count;
+}
+int main()
+{
+	int num1 = 10;
+	int num2 = 15;
+    
+	printf("%d", value((num1^num2)));
+	system("pause");
+	return 0;
+}

@@ -1,0 +1,28 @@
+unsigned int  reverse_bit(unsigned int value)
+{
+	unsigned int num1 = 0;
+	unsigned int num2 = 0;
+	int count = 0;
+
+	while (value > 0)
+	{
+		count++;
+		if ((value & 1) == 1)
+		{
+			num1 = 0;
+			num1 = (value & 1);
+			
+			num2 |= (num1 << (32 - count));
+		}
+		value >>= 1;
+	}
+	return num2;
+}
+int main()
+{
+	unsigned value = 25;
+
+	printf("%u\n", reverse_bit(value));
+	system("pause");
+	return 0;
+}
