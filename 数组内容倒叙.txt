@@ -1,0 +1,51 @@
+unsigned int i_strlen(const char* str)
+{
+	assert(str != NULL);
+	unsigned int len = 0;
+
+	while (*str++)
+	{
+		len++;
+	}
+	return len;
+}
+void str_rev(char* left,char* right)
+{
+	while (left < right)
+	{
+		char temp = *left;
+		*left = *right;
+		*right = temp;
+
+		left++;
+		right--;
+	}
+}
+
+void rev(char* str)
+{
+	int length = i_strlen(str);
+	str_rev(str, str + length - 1);
+
+	while (*str != '\0')
+	{
+		char* ptr = str;
+		while ((*str != ' ') && (*str != '\0'))
+		{
+			*str++;
+		}
+
+		str_rev(ptr, str - 1);
+		if (*str != '\0')
+			*str++;
+	}
+}
+int main()
+{
+	char arr[] = "student a am i";
+	rev(arr);
+
+	printf("%s\n",arr );
+	system("pause");
+	return 0;
+}

@@ -1,0 +1,20 @@
+char* i_strcpy(char* dest, const char* str)
+{
+	assert(dest != NULL);
+	assert(str != NULL);
+	char* ret ;
+	while (*dest++ = *str++)
+		;
+	ret = dest;
+	return ret;
+}
+int main()
+{
+	char arr[20] = { 0 };
+
+	i_strcpy(arr, "i am here");
+	printf("%s", arr);
+
+	system("pause");
+	return 0;
+}

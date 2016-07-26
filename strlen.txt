@@ -1,0 +1,19 @@
+unsigned int i_strlen(const char* str)
+{
+	assert(str != NULL);
+	unsigned int len = 0;
+
+	while (*str++)
+	{
+		len++;
+	}
+	return len;
+}
+int main()
+{
+	char arr[] = "abcdef";
+	printf("%d", i_strlen(arr));
+
+	system("pause");
+	return 0;
+}
