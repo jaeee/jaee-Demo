@@ -1,0 +1,10 @@
+#define EXCHANGE(value) printf("%d",(((value&0xaaaaaaaa)>>1)|((value&0x55555555)<<1)))
+int main()
+{
+	int num = 25;
+
+	EXCHANGE(num);
+
+	system("pause");
+	return 0;
+}

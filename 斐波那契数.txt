@@ -1,0 +1,23 @@
+int fun(int n)
+{
+	int temp = 0;
+	int num1 = 1;
+	int num2 = 0;
+
+	for (int i = 0; i < n; i++)
+	{
+		temp = num1 + num2;
+		num1 = num2;
+		num2 = temp;
+	}
+	return temp;
+}
+int main()
+{
+	int n = 0;
+	scanf("%d", &n);
+
+	printf("%d\n", fun(n));
+	system("pause");
+	return 0;
+}

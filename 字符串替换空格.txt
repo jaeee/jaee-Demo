@@ -1,0 +1,40 @@
+//×Ö·û´®Ìæ»»¿Õ¸ñ
+void fun(char* arr,int sz)
+{
+	int count=0;
+	char* len = 0;
+	char* start = arr+sz-1;
+	while (*arr !='\0')
+	{
+		if (*arr == ' ')
+			count++;
+		arr++;
+	}
+	len = start + (count * 2) ;
+	while (start != len)
+	{
+		if (*start != ' ')
+		{
+			*len-- = *start--;
+		}
+		else
+		{
+			*len-- = '0';
+			*len-- = '2';
+			*len-- = '%';
+			start--;
+
+		}
+	}
+}
+int main()
+{
+	char arr[20] = "we are happy";
+	int sz = strlen(arr);
+	fun(arr, sz);
+	printf("%s\n", arr);
+
+	system("pause");
+	return 0;
+
+}
