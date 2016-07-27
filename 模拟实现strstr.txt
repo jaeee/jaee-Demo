@@ -1,0 +1,30 @@
+char* i_strstr(const char* str1, const char* str2)
+{
+	assert(str1 != NULL);
+	assert(str2 != NULL);
+	const char* tmp;
+	//const char* ret = str1;
+	while (*str1 != '\0')
+	{
+		tmp = str1;
+		while (*str1++ == *str2++)
+		{
+			if (*str2 == '\0')
+				return str2;
+		}
+		//ret++;
+		str1 = tmp;
+	}
+	return NULL;
+}
+int main()
+{
+	char arr1[] = "hello world";
+	char arr2[] = "llo";
+
+	//int ret = i_strstr();
+	char* ret = i_strstr(arr1, arr2);
+	printf("%p", ret);
+	system("pause");
+	return 0;
+}

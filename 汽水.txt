@@ -1,0 +1,9 @@
+int main()
+{
+	double num = 20;
+	double bottle = 0.5;
+
+	printf("©ирт╨х %f ф©", ((num / bottle) - 1));
+	system("pause");
+	return 0;
+}
