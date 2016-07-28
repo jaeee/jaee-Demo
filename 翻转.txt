@@ -1,0 +1,24 @@
+void fan(char str[],int sz)
+{
+	char temp;
+	int k = sz-1;
+	for (int i = 0; i < ((sz / 2) ); i++)
+	{
+		temp = str[i];
+		str[i] = str[k];
+		str[k] = temp;
+
+		k--;
+	}
+
+}
+int main()
+{
+	char arr[] = "hello world";
+	int sz = strlen(arr);
+	fan(arr, sz);
+
+	printf("%s\n",arr);
+	system("pause");
+	return 0;
+}
