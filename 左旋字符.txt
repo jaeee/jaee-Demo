@@ -1,0 +1,28 @@
+void left_rotate(char * str,int n)
+{
+	assert(str != NULL);
+	char *ptr = str;
+	while (n--)
+	{
+		str = ptr;
+		int sz = strlen(str);
+		char temp;
+		temp = *str;
+		char *left = str+1;
+		while (--sz)
+		{
+			*str++ = *left++;
+		}
+		*str = temp;
+	}
+}
+int main()
+{
+	char arr[] = "AABCD";
+	int k = 2;                //×Ö·ûĞı×ª¸öÊı
+	left_rotate(arr, k);
+
+	printf("%s", arr);
+	system("pause");
+	return 0;
+}
