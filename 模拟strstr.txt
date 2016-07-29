@@ -1,0 +1,43 @@
+char * i_strstr(const char *str1, const  char *str2)
+{
+	assert(str1);
+	assert(str2);
+	char *p = str1;
+	char *s1 = p;
+	char *s2 = str2;
+	while (*s1)
+	{
+		s1 = p;
+		s2 = str2;
+		while ((*s1 != '\0') && (*s2 != '\0'))
+		{
+			if (*s1 == *s2)
+			{
+				s1++;
+				s2++;
+			}
+			else
+			{
+				p++;
+				break;
+			}
+		}
+		if (*s2 == '\0')
+		{
+			return p;
+		}
+
+	}
+	return 0;
+}
+int main()
+{
+	char arr1[] = "abbbcdef";
+	char arr2[] = "bbc";
+
+	//int ret = i_strstr();
+	char* ret = i_strstr(arr1, arr2);
+	printf("%p", ret);
+	system("pause");
+	return 0;
+}
