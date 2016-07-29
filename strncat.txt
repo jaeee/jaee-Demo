@@ -1,0 +1,28 @@
+char* i_strncat(char * dest, const char * src, int n)
+{
+	assert(dest != NULL);
+	assert(src != NULL);
+	
+	char * str = dest;
+	while (*dest != '\0')
+	{
+		dest++;
+	}
+	while (n--)
+	{
+		*dest++ = *src++;
+	}
+	*dest = '\0';
+	return str;
+}
+int main()
+{
+	char arr1[20] = "abcdefg";
+	char arr2[] = "bcd";
+	int sz = sizeof(arr2) / sizeof(arr2[0]);
+	i_strncat(arr1, arr2, sz);
+
+	printf("%s", arr1);
+	system("pause");
+	return 0;
+}
