@@ -1,0 +1,17 @@
+void reverse(char *str)
+{
+	if (*str == '\0')
+		return;
+	else
+		reverse(str+1);
+	putchar(*str);
+}
+int main()
+{
+	char arr[] = "abcdef";
+
+	reverse(arr);
+
+	system("PAUSE");
+	return 0;
+}

@@ -1,0 +1,29 @@
+int Max(int n,...)
+{
+	int  max = 0;
+	va_list arg;
+	va_start(arg, n);
+	//#define _crt_va_start(arg,n)  ( arg = (va_list)_ADDRESSOF(n) + _INTSIZEOF(n) )
+
+	for (int i = 0; i < n; i++)
+	{
+		int val = va_arg(arg, int);
+       //#define _crt_va_arg(arg,n)    ( *(int *)((arg += _INTSIZEOF(int)) - _INTSIZEOF(int)) )
+		if (val>max)
+		{
+			max = val;
+		}
+	}
+	va_end(arg);
+	//#define _crt_va_end(arg)      ( arg = (va_list)0 )
+	return max;
+}
+int main()
+{
+	int max = Max(5, 6, 10, 4, 5, 7);
+
+	printf("%d", max);
+
+	system("pause");
+	return 0;
+}
