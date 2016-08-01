@@ -1,0 +1,22 @@
+int i_pow(int n, int k)
+{
+	int sum = 0;
+	if (k != 0)
+	{
+		sum = n*i_pow(n,k - 1);
+	}
+	else
+	{
+		sum = 1;
+	}
+	return sum;
+}
+int main()
+{
+	int sum = 0;
+	
+	sum = i_pow(5, 6);
+	printf("%d\n", sum);
+	system("pause");
+	return 0;
+}

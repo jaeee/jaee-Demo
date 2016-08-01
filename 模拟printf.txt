@@ -1,0 +1,39 @@
+void my_printf(const char *str, ...)
+{
+	const char *ptr;
+	char c;
+
+	va_list arg;
+	va_start(arg, str);
+
+	while (*str)
+	{
+		switch (*str)
+		{
+	   //判断参数类型：c为字符char s为字符串
+		case 'c':
+			c = va_arg(arg, char);
+			putchar(c);
+			break;
+		case 's':
+			ptr = va_arg(arg,const char*);
+			for (; *ptr; ptr++)
+			{
+				putchar(*ptr);
+			}
+			break;
+		default:
+			putchar(*str);
+			break;
+		}
+		str++;
+	}
+	va_end(arg);
+}
+int main()
+{
+	my_printf("s ccc.", "hello", 'b', 'i', 't');
+
+	system("pause");
+	return 0;
+}
