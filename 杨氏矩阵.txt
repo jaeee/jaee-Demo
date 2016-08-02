@@ -1,0 +1,64 @@
+//优化后
+void bubble_sort(int *ptr,int sz)
+{
+	int flag = 1;
+	while (flag)
+	{
+		flag = 0;
+		int *p = ptr;
+		for (int k = 0; k < sz; k++)
+		{
+			if ((*ptr)>(*(p + 1)))
+			{
+				int temp = *ptr;
+				*ptr = *(p + 1);
+				*(p + 1) = temp;
+				flag = 1;
+			}
+			p++;
+		}
+		sz--;
+		ptr++;
+	}
+}
+
+//未优化
+
+void bubble_sort(int *ptr,int sz)
+{
+	
+	for (int i = 0; i < sz; i++)
+	{
+		int *p = ptr;
+		for (int k = i; k < sz; k++)
+		{
+			if ((*ptr)>(*(p + 1)))
+			{
+				int temp = *ptr;
+				*ptr = *(p + 1);
+				*(p + 1) = temp;
+				
+			}
+			p++;
+		}
+		ptr++;
+	}
+}
+void my_print(int *ptr,int sz)
+{
+	for (int i = 0; i < sz; i++)
+	{
+		printf("%d ", *ptr);
+		ptr++;
+	}
+}
+int main()
+{
+	int arr[] = { 9, 8, 5, 6, 4, 3, 2, 1 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	bubble_sort(arr,sz-1);
+	my_print(arr,sz);
+
+	system("pause");
+	return 0;
+}

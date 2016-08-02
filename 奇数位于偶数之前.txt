@@ -1,0 +1,41 @@
+void my_print(int *ptr,int sz)
+{
+	for (int i = 0; i < sz; i++)
+	{
+		printf("%d ", *ptr);
+		ptr++;
+	}
+}
+void fun(int *ptr, int sz)
+{
+	int *p = ptr + sz;
+	while (ptr < p)
+	{
+		if (*ptr % 2 == 1)
+		{
+			ptr++;
+			continue;
+		}
+		if (*p % 2 == 0)
+		{
+			p--;
+			continue;
+		}
+		int temp = *ptr;
+		*ptr = *p;
+		*p = temp;
+
+		ptr++;
+		p--;
+	}
+}
+int main()
+{
+	int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	fun(arr, sz-1);
+	my_print(arr, sz - 1);
+
+	system("pause");
+	return 0;
+}
