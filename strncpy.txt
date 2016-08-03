@@ -1,0 +1,21 @@
+char* i_strncpy(char* dest, const char* str,int n)
+{
+	assert(dest != NULL);
+	assert(str != NULL);
+	char* ret = dest;
+	while (n--)
+	{
+		*dest++ = *str++;
+	}
+	return ret;
+}
+int main()
+{
+	char arr[20] = { 0 };
+
+	i_strncpy(arr, "i am here",4);
+	printf("%s", arr);
+
+	system("pause");
+	return 0;
+}

@@ -1,0 +1,36 @@
+void* i_memcpy(void *dest, const void *src, size_t sz)
+{
+	assert(dest != NULL);
+	assert(src != NULL);
+	void* ret = dest;
+	while (sz--)
+	{
+		*((int*)dest) = *((int*)src);
+		dest = (char *)dest + 1;
+		src = (char *)src + 1;
+	}
+	return ret;
+}
+
+void my_print(int *ptr, int sz)
+{
+	for (int i = 0; i < sz; i++)
+	{
+		printf("%d ", *ptr);
+		ptr++;
+	}
+}
+
+int main()
+{
+	int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	int arr2[10] = { 0 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	
+	i_memcpy(arr2, arr, sz*sizeof(int));
+	//memcpy(arr2, arr, sz*sizeof(int));
+
+	my_print(arr2, sz);
+	system("pause");
+	return 0;
+}

@@ -1,0 +1,22 @@
+int my_strncmp(const char*str1, const char*str2, int count)
+{
+	assert(str1!=NULL);
+	assert(str2!=NULL);
+	while(count && *str1 == *str2)
+	{
+		if(*str1 == '\0')
+			return 0;
+		str1++;
+		str2++;
+		count--;
+	}
+	return *str1-*str2;
+
+}
+
+int main()
+{
+	 //my_strncmp("abcdef","ad", 10);
+	printf("%d\n", my_strncmp("abcdef", "ad", 1));
+	return 0;
+}
