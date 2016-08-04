@@ -1,0 +1,36 @@
+void my_print(int *ptr, int sz)
+{
+	for (int i = 0; i < sz; i++)
+	{
+		printf("%d ", *ptr);
+		ptr++;
+	}
+}
+void Select_sort(int* dest,int count)
+{
+	while (count--)
+	{
+		int *ptr = dest;
+		for (int i = 0; i < count; i++)
+		{
+			if (*dest < *ptr)
+			{
+				int temp = *dest;
+				*dest = *ptr;
+				*ptr = temp;
+			}
+			ptr++;
+		}
+		dest++;
+	}
+}
+int main()
+{
+	int arr[] = { 4, 8, 9, 5, 6, 1, 2, 7, 3, 0 };
+
+	Select_sort(arr, sizeof(arr) / sizeof(arr[0]));
+	my_print(arr, sizeof(arr) / sizeof(arr[0]));
+	system("pause");
+	return 0;
+}
+

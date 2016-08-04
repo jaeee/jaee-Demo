@@ -1,0 +1,42 @@
+void my_print(int *ptr, int sz)
+{
+	for (int i = 0; i < sz; i++)
+	{
+		printf("%d ", *ptr);
+		ptr++;
+	}
+}
+
+void* my_memmove(void* dest, void* src, size_t count)
+{
+	assert(dest != NULL);
+	assert(src != NULL);
+	void * ret = dest;
+	if ((src < dest) && ((char*)dest < (char*)src + count))
+	{
+		while (count--)
+		{
+			*((char*)dest + count) = *((char*)src + count);
+		}
+	}
+	else
+	{
+		while (count--)
+		{
+			*(char*)dest = *(char*)src;
+			dest = (char *)dest + 1;
+			src = (char *)src + 1;
+		}
+	}
+	return ret;
+}
+int main()
+{
+	int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
+
+	my_memmove(arr + 3, arr , 4 * sizeof(int));
+	my_print(arr, sizeof(arr) / sizeof(arr[0]));
+
+	system("pause");
+	return 0;
+}

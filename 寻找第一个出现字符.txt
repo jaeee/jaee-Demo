@@ -1,0 +1,36 @@
+int find(char arr[], const int len)  //寻找函数
+{
+	int i, j, k;
+	int arr1[20] = { 0 };     //定义一个储存每个字符出现次数的数组，
+	for (i = 0; i < len; i++)   //对字符数组元素进行遍历，并记录该字符出现次数
+	{
+		k = 0;
+		for (j = 0; j < len; j++)
+		{
+			if (arr[i] == arr[j])
+				k++;
+			arr1[i] = k;
+		}
+	}
+	for (i = 0; i < len; i++)  //从第一个开始访问，找出第一个只出现一次的字符，返回该字符在原数组的下标
+	{
+		if (arr1[i] == 1)
+		{
+			return i;
+		}
+	}
+	return len + 1;  //如没有单独出现的字符，返回一个不是下标的数
+}
+
+int main()
+{
+	char arr[] = "aaccdeff";
+	int len = sizeof(arr) / sizeof(arr[0]);
+	int c = find(arr, len);
+	if (c > len)
+		printf("这个字符串组数中没有只出现一次的字符\n");
+	else
+		printf("第一次出现的字符是：%c\n", arr[c]);
+	system("pause");
+	return 0;
+}
