@@ -1,0 +1,226 @@
+tellist.h
+
+#ifndef __TELLIST_H__
+#define __TELLIST_H__
+
+#define NAME 10
+#define SEX 5
+#define TEL 12
+#define ADDR 20
+#define MAX 1000
+
+typedef struct PEOPLE
+{
+	char name[NAME];
+	char sex[SEX];
+	int age;
+	char tel[TEL];
+	char addr[ADDR];
+}Peo,*peo;
+
+typedef struct Con
+{
+	Peo num[MAX];
+	int count;
+}peoCon,*con;
+
+void ADD_PEO(con peo);
+void DEL_PEO(con peo);
+void SEL_PEO(con peo);
+void MOD_PEO(con peo);
+void SHOW_PEO(con peo);
+void EMPTY_PEO(con peo);
+void SORT_PEO(con peo);
+
+
+#endif
+
+fun.c
+
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include"tellist.h"
+
+//添加联系人信息
+
+void ADD_PEO(con peo)
+{
+	if (peo->count <= MAX)
+	{
+		printf("姓名\t 性别 \t年龄 \t电话 \t住址\n");
+		scanf("%s", peo->num[peo->count].name);
+		scanf("%s", peo->num[peo->count].sex);
+		scanf("%d", peo->num[peo->count].age);
+		scanf("%s", peo->num[peo->count].tel);
+		scanf("%s", peo->num[peo->count].addr);
+		peo->count ++;
+		printf("添加成功！");
+	}
+	else
+	{
+		printf("通讯录已满！无法添加！");
+	}
+}
+
+
+//删除
+int find(char *c, con peo)
+{
+	int i = 0;
+	for (; i<peo->count; i++)
+	{
+		if (strcmp(c, peo->num[i].name) == 0)
+			return i;
+
+	}
+	return -1;
+}
+void DEL_PEO(con peo)
+{
+	char name[NAME];
+	int index = 0;
+	printf("请输入你想删除的名字：");
+	scanf("%s", name);
+	index = find(name, peo->num[peo->count].name);
+	for (; index <= peo->count - 1; index++)
+	{
+		peo->num[index] = peo->num[index + 1];
+	}
+	peo->count--;
+	printf("删除成功！\n");
+}
+
+//查询
+void SEL_PEO(con peo)
+{
+	char name[NAME];
+	int i = 0;
+	printf("请输入你想查找的名字：");
+	scanf("%s", name);
+	i = find(name, peo->num[i].name);
+	printf("姓名\t年龄\t性别\t电话\t\t地址\n");
+	printf("%s\t%d\t%s\t%s\t\t%s\n", peo->num[i].name, peo->num[i].age, peo->num[i].sex, peo->num[i].tel, peo->num[i].addr);
+}
+
+//修改
+void MOD_PEO(con peo)
+{
+	char nam[NAME];
+	int i = 0;
+	printf("请输入你想修改的人：");
+	scanf("%s", nam);
+	i = find(nam, peo->num[peo->count].name);
+	peo->num[i] = peo->num[-1];
+	printf("姓名\t 性别 \t年龄 \t电话 \t住址\n");
+	scanf("%s\t", peo->num[peo->count].name);
+	scanf("%s\t", peo->num[peo->count].sex);
+	scanf("%d\t", peo->num[peo->count].age);
+	scanf("%s\t", peo->num[peo->count].tel);
+	scanf("%s", peo->num[peo->count].addr);
+	printf("修改成功！\n");
+}
+//显示所有联系人信息
+void SHOW_PEO(con peo)
+{
+	int i = 0;
+	printf("姓名\t年龄\t性别\t电话\t\t地址\n");
+	for (i = 0; i<peo->count; i++)
+	{
+		printf("%s\t%d\t%s\t%s\t\t%s\n", peo->num[i].name, peo->num[i].age, peo->num[i].sex, peo->num[i].tel, peo->num[i].addr);
+	}
+}
+//清空
+void EMPTY_PEO(con peo)
+{
+	peo->count = 0;
+}
+//排序
+int swap_string(const void *elem1, const void *elem2)
+{
+	return strcmp(*(char**)elem1, *(char**)elem2);
+}
+//void SORT_PEO(con peo)
+//{
+//	qsort(peo->num[].name, peo->count, sizeof(char*), swap_string);
+//
+//	my_print(arr3, sz);
+//}
+
+yuan.c
+
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include"tellist.h"
+
+//通讯录
+enum OP
+{
+	EXIT,
+	ADD,
+	DELETE,
+	SELECT,
+	SHOW,
+	EMPTY,
+	SORT
+};
+
+void menu()
+{
+	printf(" - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
+	printf("|                      通讯录                        |\n");
+	printf("|                                                    |\n");
+	printf("|   1.添加联系人信息         2.删除指定联系人信息    |\n");
+	printf("|                                                    |\n");
+	printf("|   3.查找指定联系人信息     4.修改指定联系人信息    |\n");
+	printf("|                                                    |\n");
+	printf("|   5.显示所有联系人信息     6.清空所有联系人        |\n");
+	printf("|                                                    |\n");
+	printf("|   7.按名字序列显示         0.退出                  |\n");
+	printf("|                                                    |\n");
+	printf(" - - - - - - - - - - - - - - - - - - - - - - - - - -  \n");
+
+}
+
+int main()
+{
+	int sel = 0;
+	peoCon con;
+	while (1)
+	{
+		menu();
+		printf("请选择->：");
+		scanf("%d", &sel);
+
+		switch (sel)
+		{
+		case EXIT:
+			exit(0);
+		case ADD:
+			ADD_PEO(&con);
+			break;
+		case DELETE:
+			DEL_PEO(&con);
+			break;
+		case SELECT:
+			SEL_PEO(&con);
+			break;
+		case SHOW:
+			SHOW_PEO(&con);
+			break;
+		case EMPTY:
+			EMPTY_PEO(&con);
+			break;
+	/*	case SORT:
+			SORT_PEO(&con);
+			break;*/
+		default:
+			break;
+		}
+	}
+	system("pause");
+	return 0;
+}
