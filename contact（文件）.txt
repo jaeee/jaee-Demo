@@ -1,0 +1,350 @@
+#ifndef __TELLIST_H__
+#define __TELLIST_H__
+
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+#define NAME 10
+#define SEX 5
+#define TEL 12
+#define ADDR 20
+#define MAX 50
+
+typedef struct PEOPLE
+{
+	char name[NAME];
+	char sex[SEX];
+	int age;
+	char tel[TEL];
+	char addr[ADDR];
+}Peo,*peo;
+
+typedef struct Con
+{
+	Peo num[MAX];
+	int count;
+}peoCon,*con;
+
+void start(con peo);
+void ADD_PEO(con peo);
+void DEL_PEO(con peo);
+void SEL_PEO(con peo);
+void MOD_PEO(con peo);
+void SHOW_PEO(con peo);
+void EMPTY_PEO(con peo);
+void SORT_PEO(con peo);
+//文件写入
+void write_file(con position);
+//文件读取
+void read_file(con peo);
+//修改文件
+void mod_file(con position, char* name, int flag);
+#endif
+
+fun.c
+
+
+#include"tellist.h"
+extern char file_name[30] = "\0";
+void write_file(con peo)
+{
+	FILE *list;
+	if (peo != NULL)
+	{
+		if (strcmp(file_name, "\0") == 0)
+		{
+			printf("请输入保存文件路径：");
+			scanf("%s", file_name);
+			list = fopen(file_name, "wt");
+			fprintf(list, "%-10s", "姓名");
+			fprintf(list, "%-6s", "性别");
+			fprintf(list, "%-8s", "年龄");
+			fprintf(list, "%-20s", "电话");
+			fprintf(list, "%-20s", "地址");
+			fprintf(list, "%-20s", "地址");
+			fprintf(list, "%s", "\n");
+		}
+		else
+		{
+			list = fopen(file_name, "a+");
+		}
+		fprintf(list, "%-10s", peo->num[peo->count].name);
+		fprintf(list, "%-6s", peo->num[peo->count].sex);
+		fprintf(list, "%2d", peo->num[peo->count].age);
+		fprintf(list, "%-8s", peo->num[peo->count].tel);
+		fprintf(list, "%-10s", peo->num[peo->count].addr);
+		fprintf(list, "%s", "\n");
+	}
+	else
+	{
+		list = fopen(file_name, "w");
+		fprintf(list, "%s", "通讯录已删除");
+		strcpy(file_name, "\0");
+	}
+	fclose(list);
+}
+
+//读取文件
+void read_file(con peo)
+{
+	if (peo->num == NULL)
+	{
+		printf("空的通讯录\n\n");
+	}
+	else
+	{
+		printf("输入文件路径：");
+		scanf("%s", file_name);
+		FILE *list = fopen(file_name, "r");
+		char ch;
+		while ((ch = fgetc(list)) != EOF)
+		{
+			putchar(ch);
+		}
+	}
+}
+
+//修改
+void mod_file(con peo, char *name, int i)
+{
+	char str[100];
+	long num1 = 0;
+	FILE * list = fopen(file_name, "r");
+	while (fgets(str, 100, list) != NULL)
+	{
+		if (strstr(str, name) == NULL)
+		{
+			num1 += strlen(str) + 1;
+		}
+		else
+			break;
+	}
+	fclose(list);
+	list = fopen(file_name, "r+");
+	fseek(list, num1, SEEK_SET);
+	if (i == 0)
+	{
+		fprintf(list, "%54s", " ");
+		fprintf(list, "%s", "\n");
+	}
+	else
+	{
+		fprintf(list, "%-10s", peo->num[peo->count].name);
+		fprintf(list, "%-6s", peo->num[peo->count].sex);
+		fprintf(list, "%-10s", peo->num[peo->count].age);
+		fprintf(list, "%-8d", peo->num[peo->count].tel);
+		fprintf(list, "%-10s", peo->num[peo->count].addr);
+		fprintf(list, "%s", "\n");
+	}
+	fclose(list);
+}
+
+
+//初始化
+
+void start(con peo)
+{
+	memset(peo->num, 0, MAX*sizeof(struct PEOPLE));
+	peo->count = 0;
+}
+//动态开辟
+void mem_play(con peo)
+{
+	con* p = peo;
+	p = realloc(p, MAX*sizeof(struct PEOPLE));
+	if (p != NULL)
+	{
+		peo = p;
+	}
+}
+
+//添加联系人信息
+
+void ADD_PEO(con peo)
+{
+	if (peo->count <= MAX)
+	{
+		printf("姓名\t 性别 \t年龄 \t电话 \t住址\n");
+		scanf("%s", peo->num[peo->count].name);
+		scanf("%s", peo->num[peo->count].sex);
+		scanf("%2d", &peo->num[peo->count].age);
+		scanf("%s", peo->num[peo->count].tel);
+		scanf("%s", peo->num[peo->count].addr);
+		write_file(peo);
+		peo->count ++;
+		printf("添加成功！\n\n");
+	}
+	else
+	{
+		mem_play(peo);
+		peo->count += MAX;
+	}
+}
+
+
+//删除
+int find(char *c, con peo)
+{
+	int i = 0;
+	for (; i<peo->count; i++)
+	{
+		if (strcmp(c, peo->num[i].name) == 0)
+			return i;
+
+	}
+	return -1;
+}
+void DEL_PEO(con peo)
+{
+	char name[NAME];
+	int index = 0;
+	printf("请输入你想删除的名字：");
+	scanf("%s", name);
+	index = find(name, peo->num[peo->count].name);
+	/*if (index == 0)
+		mod_file(peo, name, 0);*/
+	for (; index <= peo->count - 1; index++)
+	{
+		peo->num[index] = peo->num[index + 1];
+	}
+	peo->count--;
+	printf("删除成功！\n");
+
+}
+
+//查询
+void SEL_PEO(con peo)
+{
+	char name[NAME];
+	int i = 0;
+	printf("请输入你想查找的名字：");
+	scanf("%s", name);
+	i = find(name, peo->num[i].name);
+	printf("姓名\t年龄\t性别\t电话\t\t地址\n");
+	printf("%s\t%d\t%s\t%s\t\t%s\n", peo->num[i].name, peo->num[i].age, peo->num[i].sex, peo->num[i].tel, peo->num[i].addr);
+}
+
+//修改
+void MOD_PEO(con peo)
+{
+	char nam[NAME];
+	int i = 0;
+	printf("请输入你想修改的人：");
+	scanf("%s", nam);
+	i = find(nam, peo->num[peo->count].name);
+	peo->num[i] = peo->num[-1];
+	printf("姓名\t 性别 \t年龄 \t电话 \t住址\n");
+	scanf("%s\t", peo->num[peo->count].name);
+	scanf("%s\t", peo->num[peo->count].sex);
+	scanf("%d\t", peo->num[peo->count].age);
+	scanf("%s\t", peo->num[peo->count].tel);
+	scanf("%s", peo->num[peo->count].addr);
+	printf("修改成功！\n");
+}
+//显示所有联系人信息
+void SHOW_PEO(con peo)
+{
+	read_file(peo);
+	/*int i = 0;
+	printf("姓名\t年龄\t性别\t电话\t\t地址\n");
+	for (i = 0; i<peo->count; i++)
+	{
+		printf("%s\t%2d\t%s\t%s\t\t%s\n", peo->num[i].name, &peo->num[i].age, peo->num[i].sex, peo->num[i].tel, peo->num[i].addr);
+	}*/
+}
+//清空
+void EMPTY_PEO(con peo)
+{
+	peo->count = 0;
+	write_file(NULL);
+}
+
+main.c
+
+
+#include"tellist.h"
+
+char file_name[30];
+//通讯录
+enum OP
+{
+	EXIT,
+	ADD,
+	DELETE,
+	SELECT,
+	MODIFY,
+	SHOW,
+	EMPTY,
+	SORT
+};
+
+//动态开辟
+
+
+
+
+void menu()
+{
+	printf(" - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
+	printf("|                      通讯录                        |\n");
+	printf("|                                                    |\n");
+	printf("|   1.添加联系人信息         2.删除指定联系人信息    |\n");
+	printf("|                                                    |\n");
+	printf("|   3.查找指定联系人信息     4.修改指定联系人信息    |\n");
+	printf("|                                                    |\n");
+	printf("|   5.显示所有联系人信息     6.清空所有联系人        |\n");
+	printf("|                                                    |\n");
+	printf("|   7.按名字序列显示         0.退出                  |\n");
+	printf("|                                                    |\n");
+	printf(" - - - - - - - - - - - - - - - - - - - - - - - - - -  \n");
+
+}
+
+
+
+int main()
+{
+	int input = 0;
+	peoCon con;
+	start(&con);
+	while (1)
+	{
+		menu();
+		printf("请选择->：");
+		scanf("%d", &input);
+		
+		switch (input)
+		{
+		case EXIT:
+			//free(&con);
+			exit(0);
+		case ADD:
+			ADD_PEO(&con);
+			break;
+		case DELETE:
+			DEL_PEO(&con);
+			break;
+		case SELECT:
+			SEL_PEO(&con);
+			break;
+		case MODIFY:
+			MOD_PEO(&con);
+			break;
+		case SHOW:
+			SHOW_PEO(&con);
+			break;
+		case EMPTY:
+			EMPTY_PEO(&con);
+			break;
+	/*	case SORT:
+			SORT_PEO(&con);
+			break;*/
+		default:
+			break;
+		}
+	}
+	system("pause");
+	return 0;
+}
