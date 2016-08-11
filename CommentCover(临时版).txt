@@ -1,0 +1,185 @@
+CommentCover.h
+
+#ifndef __COMMENT_CONVER_H__
+#define __COMMENT_CONVER_H__
+
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+enum STATE
+{
+	STATE_NULL,
+	STATE_C,
+	STATE_CPP,
+	STATE_EOF
+};
+
+void DoCommentCover(FILE* pfIn, FILE* pfOut);
+void DoNULL(FILE* pfIn, FILE* pfOut);
+void DoC(FILE* pfIn, FILE* pfOut);
+void DoCPP(FILE* pfIn, FILE* pfOut);
+
+
+
+#endif
+
+CommentCover.c
+
+#include "CommentConver.h"
+enum STATE state;
+void DoNULL(FILE*pfIn,FILE* pfOut)
+{
+	int first = fgetc(pfIn);
+	int second = 0;
+
+	switch (first)
+	{
+	case'/':
+	{
+			   second = fgetc(pfIn);
+			   if (second == '/')
+			   {
+				   state = STATE_CPP;
+				   fputc(first, pfOut);
+				   fputc(second, pfOut);
+			   }
+			   else if (second == '*')
+			   {
+				   fputc(first, pfOut);
+				   fputc('/', pfOut);
+				   state = STATE_C;
+			   }
+	}
+		break;
+	case EOF:
+		fputc(first, pfOut);
+		state = STATE_EOF;
+		break;
+	default:
+		fputc(first, pfOut);
+		break;
+	}
+}
+
+void DoC(FILE* pfIn, FILE* pfOut)
+{
+	int first = fgetc(pfIn);
+	int second = 0;
+	int third = 0;
+	switch (first)
+	{
+	case '*':
+	{
+				second = fgetc(pfIn);
+				if (second == '/')
+				{
+					third = fgetc(pfIn);
+					if (third == '\n')
+						fputc(third, pfOut);
+					else
+					{
+						ungetc(third, pfIn);
+						fputc('\n', pfOut);
+					}
+					state = STATE_NULL;
+				}
+				else if (second == '*')
+				{
+					ungetc(second, pfIn);
+					fputc(first, pfOut);
+				}
+				else
+				{
+					fputc(first, pfOut);
+					fputc(second, pfOut);
+				}
+	}
+		break;
+	case '\n':
+		fputc(first, pfOut);
+		fputc('\n', pfOut);
+		fputc('\n', pfOut);
+		break;
+	case EOF:
+		state = STATE_EOF;
+	default:
+		fputc(first, pfOut);
+		break;
+	}
+}
+
+void DoCPP(FILE* pfIn, FILE* pfOut)
+{
+	int first = fgetc(pfIn);
+	int second = 0;
+
+	switch (first)
+	{
+	case'\n':
+		fputc(first, pfOut);
+		state = STATE_NULL;
+		break;
+	case EOF:
+		fputc(first, pfOut);
+		state = STATE_EOF;
+		break;
+	default:
+		fputc(first, pfOut);
+		break;
+	}
+}
+void DoCommentCover(FILE* pfIn, FILE* pfOut)
+{
+	state = STATE_NULL;
+	int first = 0;
+	while (state!=STATE_EOF)
+	{
+		switch (state)
+		{
+		case STATE_NULL:
+			DoNULL(pfIn, pfOut);
+			break;
+		case STATE_C:
+			DoC(pfIn, pfOut);
+			break;
+		case STATE_CPP:
+			DoCPP(pfIn, pfOut);
+			break;
+		case STATE_EOF:
+			exit(EXIT_FAILURE);
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+main.c
+
+#include "CommentConver.h"
+
+int main()
+{
+	FILE *pfIn = fopen("input.c", "r");
+	FILE *pfOut = fopen("output.c", "w");
+	if (pfIn == NULL)
+	{
+		perror("input.c");
+		exit(EXIT_FAILURE);
+	}
+	if (pfOut == NULL)
+	{
+		perror("output.c");
+		fclose(pfIn);
+	}
+	DoCommentCover(pfIn, pfOut);
+	printf("×ª»»³É¹¦");
+	fclose(pfIn);
+	fclose(pfOut);
+
+
+	system("pause");
+	return 0;
+}
