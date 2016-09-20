@@ -1,0 +1,534 @@
+linklist.h
+
+#define  _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<assert.h>
+
+
+typedef int DataType;
+typedef struct LINKLISTNode
+{
+	DataType data;
+	struct LINKLISTNode* next;
+}Node, *PNode;
+
+
+void InitList(PNode* pHead);
+
+void PushBack(PNode* pHead, DataType data);
+
+void PopBack(PNode* pHead);
+
+void PushFront(PNode* pHead, DataType data);
+
+void PopFront(PNode* pHead);
+
+PNode Find(PNode pHead, DataType data);
+
+void Insert(PNode pos, DataType data);
+
+void Erase(PNode* pHead, PNode pos);
+
+void Remove(PNode* pHead, DataType data);
+
+void RemoveAll(PNode* pHead, DataType data);
+
+int Empty(PNode pHead);
+
+void Clear(PNode* pHead);
+
+void Destroy(PNode* pHead);
+
+int Size(PNode pHead);
+
+PNode BuyNode(DataType data);
+
+void PrintList(PNode pHead);
+
+////////////////////////////////////////////////////
+void ResversePrintList(PNode pHead);
+
+void DeleteNotTailNode(PNode pos);
+void InsertNotHeadNode(PNode pos, DataType data);
+
+linklist.c
+
+#include"linklist.h"
+
+void InitList(PNode* pHead)
+{
+	assert(NULL != pHead);
+
+	*pHead = NULL;
+}
+
+PNode BuyNode(DataType data)
+{
+	PNode temp = (PNode)malloc(sizeof(Node));
+
+	if (NULL == temp)
+	{
+		printf("开辟内存失败!");
+		return NULL;
+	}
+	else
+	{
+		temp->data = data;
+		temp->next = NULL;
+		return temp;
+	}
+}
+
+void PushBack(PNode* pHead, DataType data)
+{
+	assert(NULL != pHead);
+	//判空
+	if (NULL == *pHead)
+	{
+		*pHead = BuyNode(data);
+	}
+	else
+	{
+		PNode pCur = *pHead;
+
+		while (pCur->next != NULL)
+		{
+			pCur = pCur->next;
+		}
+		pCur->next = BuyNode(data);
+	}
+}
+
+void PopBack(PNode* pHead)
+{
+	PNode pCur = NULL;
+	PNode pPre = NULL;
+
+	assert(pHead);
+
+	pCur = *pHead;
+
+	if (NULL == pCur)
+	{
+		printf("链表为空！无需删除");
+		return;
+	}
+	else if (NULL == pCur->next)   //链表有一个节点
+	{
+		free(pCur);
+		*pHead = NULL;
+	}
+	else    //链表有多个节点
+	{
+		while (pCur->next != NULL)
+		{
+			pPre = pCur;
+			pCur = pCur->next;
+		}
+		free(pCur);
+		pPre->next = NULL;
+	}
+}
+
+void PushFront(PNode* pHead, DataType data)
+{
+	PNode pM = NULL;
+
+	assert(pHead != NULL);
+
+	pM = BuyNode(data);
+	pM->next = *pHead;
+	*pHead = pM;
+}
+
+void PopFront(PNode* pHead)
+{
+	assert(NULL != pHead);
+
+	PNode pCur = NULL;
+	pCur = *pHead;
+
+	if (*pHead == NULL)
+	{
+		printf("链表为空，不需删除");
+		return;
+	}
+	else
+	{
+		*pHead = pCur->next;
+		free(pCur);
+	}
+}
+
+PNode Find(PNode pHead, DataType data)
+{
+	PNode pCur = NULL;
+	assert(pHead != NULL);
+
+	pCur = pHead;
+	
+	while (pCur != NULL)
+	{
+		if (pCur->data == data)
+		{
+			return pCur;
+		}
+		else
+		{
+			pCur = pCur->next;
+		}
+	}
+	return NULL;
+}
+
+void Insert(PNode pos, DataType data)
+{
+	PNode pM = BuyNode(data);
+	assert(pos != NULL);
+
+	if (NULL == pM)
+	{
+		printf("内存开辟失败");
+		return;
+	}
+	else
+	{
+		pM->next = pos->next;
+		pos->next = pM;
+	}
+}
+
+void Erase(PNode* pHead, PNode pos)
+{
+	PNode pCur = NULL;
+	PNode pPre = NULL;
+
+	assert(NULL != pHead);
+	assert(NULL != pos);
+
+	pCur = *pHead;
+	pPre = *pHead;
+
+	if (NULL == pCur)
+	{
+		return;
+	}
+	else
+	{
+		while (pCur != NULL)
+		{
+			if (pCur->data == pos->data)
+			{
+				//删除头结点，链表中只有一个节点
+				if (pCur == *pHead)
+				{
+					*pHead = pCur->next;
+					free(pCur);
+				}
+				else//链表中有多个节点
+				{
+					pPre->next = pCur->next;
+					free(pCur);
+				}
+				return;
+			}
+			else
+			{
+				pPre = pCur;
+				pCur = pCur->next;
+			}
+		}
+	}
+	printf("没有找到节点");
+}
+
+//删除所有节点值为data的节点
+void Remove(PNode* pHead, DataType data)
+{
+	PNode pCur = NULL;
+	PNode pPre = NULL;
+
+	assert(NULL != pHead);
+
+	pCur = *pHead;
+	pPre = *pHead;
+
+	if (NULL == *pHead)
+	{
+		return;
+	}
+	else
+	{
+		while (pCur != NULL)
+		{
+			if (pCur->data == data)
+			{
+				if (pCur == *pHead)
+				{
+					*pHead = pCur->next;
+					free(pCur);
+				}
+				else
+				{
+					pPre->next = pCur->next;
+					free(pCur);
+				}
+				return;
+			}
+			else
+			{
+				pPre = pCur;
+				pCur = pCur->next;
+			}
+		}
+	}
+}
+
+//删除节点值为data的节点
+void RemoveAll(PNode* pHead, DataType data)
+{
+	PNode pCur = NULL;
+	PNode pPre = NULL;
+
+	assert(NULL != pHead);
+
+	pCur = *pHead;
+	pPre = *pHead;
+
+	if (NULL == *pHead)
+	{
+		return;
+	}
+	else
+	{
+		PNode temp = NULL;
+
+		while (pCur != NULL)
+		{
+			if (pCur->data == data)//删除头结点
+			{
+				if (pCur == *pHead)
+				{
+					temp = pCur;
+					*pHead = pCur->next;
+					pCur = pCur->next;
+					free(temp);
+				}
+				else
+				{
+					temp = pCur;
+					pPre->next = pCur->next;
+					pCur = pCur->next;
+					free(temp);
+				}
+			}
+			else
+			{
+				pPre = pCur;
+				pCur = pCur->next;
+			}
+		}
+	}
+}
+//
+//void Clear(PNode* pHead)
+//{
+//
+//}
+
+//销毁链表
+void Destroy(PNode* pHead)
+{
+	PNode pCur = *pHead;
+
+	assert(NULL != pHead);
+
+	if (NULL == pCur)
+	{
+		return;
+	}
+	else
+	{
+		PNode temp = NULL;
+		
+		while (pCur != NULL)
+		{
+			temp = pCur;
+			pCur = pCur->next;
+			free(pCur);
+		}
+		*pHead = NULL;
+	}
+}
+
+int Size(PNode pHead)
+{
+	int count = 0;
+	PNode pCur = pHead;
+
+	while (pCur != NULL)
+	{
+		count++;
+		pCur = pCur->next;
+	}
+	return count;
+}
+
+void PrintList(PNode pHead)
+{	
+	PNode pCur = NULL;
+	if (NULL == pHead)
+	{
+		printf("链表为空");
+		return;
+	}
+	
+	pCur = pHead;
+	while (pCur != NULL)
+	{
+		printf("%d ->", pCur->data);
+		pCur = pCur->next;
+	}
+	printf("NULL\n");
+}
+/////////////////////////////////////////////////
+
+//逆序打印
+void ResversePrintList(PNode pHead)
+{
+	if (NULL == pHead)
+	{
+		return;
+	}
+	else
+	{
+		ResversePrintList(pHead->next);
+		printf("%d ->", pHead->data);
+	}
+}
+
+//无头结点  删除一个无头单链表的非尾节点（不能遍历链表）(ps:删除后一个节点)
+void DeleteNotTailNode(PNode pos)
+{
+	PNode pCur = NULL;
+	assert(NULL != pos);
+
+	pCur = pos->next;
+	pos->data = pCur->data;
+	pos->next = pCur->next;
+	free(pCur);
+}
+
+
+//无头单链表的一个非头节点前插入一个节点
+void InsertNotHeadNode(PNode pos,DataType data)
+{
+	PNode pM = NULL;
+
+	assert(NULL != pos);
+
+	pM = BuyNode(pos->data);
+
+	if (NULL == pM)
+	{
+		printf("内存开辟失败");
+		return;
+	}
+	else
+	{
+		pM->next = pos->next;
+		pos->next = pM;
+		pos->data = data;
+	}
+}
+
+main.c
+
+#include"linklist.h"
+
+void fun1()
+{
+	PNode pHead;
+	PNode pCur = NULL;
+	int size = 0;
+
+	InitList(&pHead);
+	PushBack(&pHead, 2);
+	PushBack(&pHead, 4);
+	PushBack(&pHead, 6);
+	PushBack(&pHead, 9);
+	PushBack(&pHead, 4);
+	PrintList(pHead);
+
+	PushFront(&pHead, 25);
+	PushFront(&pHead, 20);
+	PrintList(pHead);
+	PopFront(&pHead);
+	PrintList(pHead);
+
+	pCur = Find(pHead, 4);
+
+	//Insert(pHead, pCur, 15);
+	PrintList(pHead);
+	//Erase(&pHead, pCur);
+	PrintList(pHead);
+	//ResversePrintList(pHead);
+	pCur = Find(pHead, 15);
+	//DeleteNotTailNode(pCur);
+	//PrintList(pHead);
+
+	InsertNotHeadNode(pCur, 250);
+	PrintList(pHead);
+	size = Size(pHead);
+	printf("size = %d\n", size);
+
+	Remove(&pHead, 250);
+	PrintList(pHead);
+
+	Remove(&pHead, 8);
+	PrintList(pHead);
+	PushBack(&pHead, 5);
+	PrintList(pHead);
+	RemoveAll(&pHead, 5);
+	PrintList(pHead);
+
+}
+
+void fun2()
+{
+	PNode pCur = NULL;
+	PNode pHead;
+	InitList(&pHead);
+	PushBack(&pHead, 5);
+	PushBack(&pHead, 5);
+	PushBack(&pHead, 5);
+	PushBack(&pHead, 5);
+	PushBack(&pHead, 3);
+	PushBack(&pHead, 8);
+	PrintList(pHead);
+	pCur = Find(pHead, 3);
+	Insert(pCur, 90);
+	PrintList(pHead);
+	RemoveAll(&pHead, 5);
+	PrintList(pHead);
+	
+}
+
+void fun3()
+{
+	PNode pHead;
+	InitList(&pHead);
+	PushBack(&pHead, 5);
+}
+
+int main()
+{
+	fun1();
+	//fun2();
+	//fun3();
+
+	system("pause");
+	return 0;
+}
