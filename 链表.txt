@@ -1,0 +1,286 @@
+1.
+void reverse()  
+        {  
+            if(NULL==head || NULL==head->next)  
+            {  
+                return;  
+            }  
+            cur=head->next;  
+  
+            node* prev=NULL;  
+            node* pcur=head->next;  
+            node* next;  
+            while(pcur!=NULL)  
+            {  
+                if(pcur->next==NULL)  
+                {  
+                    pcur->next=prev;  
+                    break;  
+                }  
+                next=pcur->next;  
+                pcur->next=prev;  
+                prev=pcur;  
+                pcur=next;  
+            }  
+  
+            head->next=pcur;  
+               
+            node* tmp=head->next;  
+            while(tmp!=NULL)  
+            {  
+                cout<<tmp->data<<"\t";  
+                tmp=tmp->next;  
+            }  
+        }  
+  
+        void print3()  
+        {  
+            recursion(head->next);  
+        }  
+
+2.
+
+void DelNotTailNode(PSListNode pos)
+{
+    PSListNode pNode = NULL;
+    assert(pos);
+    if (NULL == pos->pNextNode)
+    {
+        return;
+    }
+
+    else
+    {
+        DataType temp = 0;
+        //交换pos和pos->pNextNode的数据（相当于交换了两个结点的位置），使问题转换为删除pos指向的结点的下一个结点
+        temp = pos->data;
+        pos->data = pos->pNextNode->data;
+        pos->pNextNode->data = temp;
+        pNode = pos->pNextNode;
+        pos->pNextNode = pos->pNextNode->pNextNode;
+        free(pNode);
+        pNode = NULL;
+    }
+}
+
+3.
+
+PNode Buy_Node(DataType data)//创建节点!!!
+{
+    PNode tmp = (PNode)malloc(sizeof(Node));//开辟一个空间节点
+    if (tmp == NULL)
+    {
+        return NULL;
+    }
+    tmp->data = data; 
+    tmp->pNext = NULL;
+    return tmp;
+}
+
+void InsertNotHeadNode(PNode pos, DataType data)
+{
+    PNode PNewnode = NULL;
+    PNode _pos = pos;  //记住原来节点的位置
+    assert(pos);
+    PNewnode = Buy_Node(data);
+    PNewnode->pNext = _pos->pNext;
+    _pos->pNext = PNewnode; 
+    _pos->data = _pos->pNext->data;
+    _pos->pNext = _pos->pNext->pNext;
+    free(PNewnode);
+}
+
+4.
+
+void BubbleSort (pLinkList pList)  
+{  
+    pLinkNode cur = NULL;  
+    pLinkNode teil = NULL;  
+  
+    assert(pList);  
+  
+    cur = pList->pHead ;  
+  
+    while(cur != teil)  
+    {  
+        while(cur->next != teil)  
+        {  
+            if(cur->data > cur->next ->data )  
+            {  
+                DataType tmp = cur->data ;  
+                cur->data = cur->next ->data ;  
+                cur->next ->data = tmp;  
+            }  
+            cur = cur->next ;  
+        }  
+        teil = cur;  
+        cur = pList->pHead ;  
+    }  
+    return ;  
+}
+
+5.
+
+Node *Merge(Node *head1,Node *head2)
+{
+    Node *p1 = NULL;
+    Node *p2 = NULL;
+    Node *head = NULL;
+
+    //找出两个链表中第一个结点较小的结点，head记录较小结点的头结点
+    if(head1->next->data < head2->next->data)
+    {
+        head = head1;
+        p1 = head1->next;
+        p2 = head2->next;
+    }
+    else
+    {
+        head = head2;
+        p2 = head2->next;
+        p1 = head1->next;
+    }
+
+    Node *pcur = head;
+
+    //在两个链表中遍历比较，将值较小的结点链接到pcur结点后
+    while(p1 != NULL && p2 != NULL)
+    {
+        if(p1->data <= p2->data)
+        {
+            pcur->next = p1;
+            pcur = p1;
+            p1 = p1->next;
+        }
+        else
+        {
+            pcur->next = p2;
+            pcur = p2;
+            p2 = p2->next;
+        }
+    }
+    //将p1或p2剩余的结点链到pcur之后，完成整个合并的过程
+    if(p1 != NULL)
+        pcur->next = p1;
+    if(p2 != NULL)
+        pcur->next = p2;
+    
+    return head;
+}
+
+6.
+
+SListNode * FindMidNode(SListNode * phead)  
+{  
+    SListNode *fast = phead;  
+    SListNode *slow = phead;  
+    while (fast&&fast->next )  
+    {  
+        fast = fast->next->next;  
+        slow = slow->next;  
+    }   
+    return slow;  
+}  
+
+7.
+Node*  FindElem(LinkList *L,int k)  
+{  
+    LinkList  ptr1, ptr2;  
+    ptr1=ptr2=*L;  
+    if(k>ListLength(*L))  
+    {   
+        exit(0);  
+          
+    }  
+    for(int i=0;i<k;i++)  
+    {  
+        ptr1=ptr1->next;  
+    }  
+      
+    while(ptr1!=NULL)  
+    {  
+        ptr1=ptr1->next;  
+        ptr2=ptr2->next;  
+    }  
+    return ptr2;   
+}
+
+8.
+PNode JudgeCircleAndLength(PNode pHead)//判断带环，求节点  
+{  
+    PNode pH1 = NULL;  
+    PNode pH2 = NULL;  
+    assert(pHead);  
+    if (NULL == pHead->pNext)  
+    {  
+        return NULL;  
+    }  
+    pH1 = pHead;  
+    pH2 = pH1;  
+    while (pH1->pNext != NULL)  
+    {  
+        pH1 = pH1->pNext;  
+        pH2 = pH2->pNext->pNext;  
+        if (pH1 == pH2)  
+        {  
+            return pH1;  
+        }  
+    }  
+    return NULL;  
+}  
+
+寻找环连接点入口点
+slist* FindLoopPort(slist *head)
+{
+slist *slow = head, *fast = head;
+while ( fast && fast->next )
+{
+slow = slow->next;
+fast = fast->next->next;
+if ( slow == fast ) break;
+}
+if (fast == NULL || fast->next == NULL)
+return NULL;
+slow = head;
+while (slow != fast)
+{
+slow = slow->next;
+fast = fast->next;
+}
+return slow;
+}
+
+int GetCirclrLen(PNode pMeetNode)//求链表环的长度
+{
+    PNode CurNode = pMeetNode;
+    int count = 1;
+    while (CurNode->next != pMeetNode)
+    {
+        count++;
+        CurNode = CurNode->next;
+    }
+    return count;
+}
+
+9.
+
+void UnionSet(PNode p1, PNode p2)
+{
+    assert(p1);
+    assert(p2);
+    PNode pp1 = p1;
+    PNode pp2 = p2;
+    while (pp1)
+    {
+        pp2 = p2;
+        while (pp2)
+        {
+            if (pp1->data == pp2->data)
+            {
+                printf("%d\n", pp1->data);
+            }
+            pp2 = pp2->next;
+        }
+        pp1 = pp1->next;
+    }
+}

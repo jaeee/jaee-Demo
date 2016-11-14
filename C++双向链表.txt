@@ -1,0 +1,306 @@
+#pragma once
+
+#include<iostream>
+using namespace std;
+
+#define DataType int
+
+typedef struct Node
+{
+	Node(const DataType& data = 0)
+	{}
+
+	DataType data;
+	Node *Ppre;
+	Node *next;
+};
+
+class LinkList
+{
+public:
+
+	LinkList()
+		:_pHead(NULL),
+		_pTail(NULL),
+		_size(0)
+	{}
+
+	LinkList(DataType arr[],size_t size)
+		:_pHead(NULL),
+		_pTail(NULL),
+		_size(size)
+	{
+		for (size_t i = 0; i < size; i++)
+		{
+			PushBack(arr[i]);
+		}
+	}
+
+	LinkList(const LinkList& l)
+	{
+		Node* _newpHead = new Node;
+		Node* _newpTail = new Node;
+
+		_newpHead = l._pHead;
+		_newpTail = l._pTail;
+		delete _pHead;
+		delete _pTail;
+
+		_pHead = _newpHead;
+		_pTail = _newpTail;
+	}
+
+	LinkList& operator=(const LinkList& l)
+	{
+		if (this != &l)
+		{
+			Node* _newpHead = new Node;
+			Node* _newpTail = new Node;
+
+			_newpHead = l._pHead;
+			_newpTail = l._pTail;
+			delete _pHead;
+			delete _pTail;
+
+			_pHead = _newpHead;
+			_pTail = _newpTail;
+			_size = l._size;
+
+			return *this;
+		}
+		return *this;
+	}
+
+	~LinkList()
+	{
+		if ((_pHead != NULL) && (_pTail != NULL))
+		{
+			delete _pHead;
+			delete _pTail;
+
+			_pHead = NULL;
+			_pTail = NULL;
+
+			--_size;
+		}
+	}
+	void PushBack(const DataType& data)
+	{
+		if (NULL == _pTail)
+		{
+			_pTail = BuyNode(data);
+			_pHead = _pTail;
+			_pHead->Ppre = NULL;
+			_pTail->next = NULL;
+		}
+		else
+		{
+			Node* pNewNode = BuyNode(data);
+			_pTail->next = pNewNode;
+			pNewNode->Ppre = _pTail;
+			pNewNode->next = NULL;
+			_pTail = pNewNode;
+		}
+		--_size;
+	}
+	bool Empty()const
+	{
+		return (0 == _size);
+	}
+	//删除节点
+	void PopBack()
+	{
+		if (Empty())//没有节点
+		{
+			return;
+		}
+		else if (_pHead == _pTail)//只有一个节点
+		{
+			delete[] _pHead;
+			_pHead = NULL;
+			_pTail = NULL;
+			--_size;
+		}
+		else
+		{
+			delete[] _pTail;
+			_pTail = _pTail->Ppre;
+			delete _pTail->next;
+			_pTail->next = NULL;
+			--_size;
+		}
+	}
+
+	void PushFront(const DataType& data)//头插
+	{
+		if (Empty())//没有节点
+		{
+			_pHead = BuyNode(data);
+			_pTail = _pHead;
+			++_size;
+		}
+		else
+		{
+			Node* pNewNode = BuyNode(data);
+			_pHead->Ppre = pNewNode;
+			pNewNode->next = _pHead;
+			pNewNode->Ppre = NULL;
+			_pHead = pNewNode;
+			++_size;
+		}
+	}
+
+	void PopFront()
+	{
+		if (Empty())
+		{
+			return;
+		}
+		else if (_pHead == _pTail)
+		{
+			delete[] _pHead;
+			_pHead = NULL;
+			_pTail = NULL;
+		}
+		else
+		{
+			_pHead = _pHead->next;
+			delete[] _pHead->Ppre;
+			_pHead->Ppre = NULL;
+			--_size;
+		}
+	}
+
+	Node* Find(const DataType& data)const
+	{
+		Node* pCur = _pHead;
+
+		while (pCur)
+		{
+			if (data == pCur->data)
+			{
+				return pCur;
+			}
+			else
+			{
+				pCur = pCur->next;
+			}
+			return pCur;
+		}
+	}
+
+	void Insert(Node* pos, const DataType& data)
+	{
+		if (Empty())
+		{
+			PushFront(data);
+		}
+		else if (_pHead == _pTail)
+		{
+			PushBack(data);
+		}
+		else
+		{
+			Node* pNewNode = BuyNode(data);
+			pNewNode->next = pos->next;
+			pNewNode->Ppre = pos;
+			pos->next = pNewNode;
+			pos->next->Ppre = pNewNode;
+		}
+		++_size;
+	}
+
+	void Erase(Node* pos)
+	{
+		if (Empty())
+		{
+			return;
+		}
+		else if (pos == _pHead)
+		{
+			PopBack();
+		}
+		else
+		{
+			pos->Ppre->next = pos->next;
+			pos->next->Ppre = pos->Ppre;
+
+			delete pos;
+			pos->next = NULL;
+			pos->Ppre = NULL;
+			//--_size;
+		}
+	}
+
+	void Remove(const DataType& data)
+	{
+		Node* pTemp = _pHead;
+
+		while (pTemp)
+		{
+			if (data == pTemp->data)
+			{
+				Erase(pTemp);
+			}
+			pTemp = pTemp->next;
+		}
+	}
+
+	size_t Size()
+	{
+		return _size;
+	}
+	void Clear()
+	{
+		if (_size == 0)
+		{
+			return;
+		}
+		else
+		{
+			Node* pDel = _pHead;
+			Node* pCur = _pHead->next;
+			while (pCur->next)
+			{
+				pCur = pCur->next;
+				pDel = pCur->Ppre;
+				delete pDel;
+			}
+			delete pCur;
+			_pTail = NULL;
+			pDel = _pHead;
+			delete pDel;
+			_pHead = NULL;
+			_size = 0;
+		}
+	}
+
+	Node& Front()
+	{
+		return *_pHead;
+	}
+	const Node& Front()const
+	{
+		return *_pHead;
+	}
+	Node& Back()
+	{
+		return *_pTail;
+	}
+	Node& Back()const
+	{
+		return *_pTail;
+	}
+private:
+	Node* BuyNode(const DataType& data)
+	{
+		Node* pnewNode = new Node;
+		pnewNode->data = data;
+		return pnewNode;
+	}
+
+private:
+	Node* _pHead;
+	Node* _pTail;
+	size_t _size;
+};

@@ -1,0 +1,154 @@
+Comlex.h
+
+class Complex
+{
+public:
+	Complex(double real = 0.0, double image = 0.0);
+	~Complex();
+	Complex(Complex& c1);
+
+	//运算符重载
+
+	Complex& operator=(const Complex& d);//赋值
+	bool operator ==(const Complex& d);//判断相等
+	Complex operator+(const Complex& d);//复数相加
+	Complex& operator+=(const Complex& d);  //复数对象+=d  
+	Complex operator-(const Complex& d);  //两个复数相减  
+	Complex& operator-=(const Complex& d);  //复数对象-=d  
+	Complex operator++();  //前置++  
+	Complex operator++(int);  //后置++  且不用添加参数  特殊形式  
+	Complex operator--();  //前置--  
+	Complex operator--(int);  //后置--  
+	void Display();  //显示复数的实部和虚部  
+
+private:
+	double _real;
+	double _image;
+};
+
+Complex.cpp
+
+#include"Complex.h"
+
+ 
+Complex::Complex(double real, double image)
+:_real(real),
+_image(image)
+{
+}
+
+//拷贝构造函数  
+
+Complex::Complex(Complex & c1) :
+_real(c1._real),
+_image(c1._image)
+{
+}
+
+//析构函数
+
+Complex::~Complex()
+{
+}
+
+Complex & Complex::operator=(const Complex &d)
+{
+	this->_real = d._real;
+	this->_image = d._image;
+	return *this;
+}
+
+//判断相等  
+
+bool Complex::operator==(const Complex & d) 
+{
+	return this->_image == d._image&&this->_real == d._real;
+}
+
+//两个复数相加  
+Complex Complex::operator+(const Complex &d) 
+{
+	Complex tmp;
+	tmp._image = this->_image + d._image;
+	tmp._real = this->_real + d._real;
+	return tmp;
+}
+
+//复数对象+=d 
+Complex& Complex::operator+=(const Complex &d)  
+{
+	this->_image += d._image;
+	this->_real += d._real;
+	return *this;
+}
+
+//两个复数相减  
+
+Complex Complex::operator-(const Complex &d) 
+{
+	Complex tmp;
+	tmp._image = this->_image - d._image;
+	tmp._real = this->_real - d._real;
+	return tmp;
+}
+
+//复数对象-=d
+
+Complex& Complex::operator-=(const Complex &d)    
+{
+	this->_image -= d._image;
+	this->_real -= d._real;
+	return *this;
+}
+
+//这两者返回值不同而已  
+
+Complex Complex::operator++()  //前置++  
+{
+	//*this自增  
+	this->_image++;
+	this->_real++;
+	//返回增加后的值  
+	return *this;
+}
+
+//后置++  一种特殊形式  
+
+Complex Complex::operator++(int)  
+{
+	Complex tmp = *this;
+	//*this自增  
+	this->_image++;
+	this->_real++;
+	//返回增加之前  
+	return tmp;
+}
+
+//前置-- 
+Complex Complex::operator--()   
+{
+	
+	this->_image--;//*this自减  
+	this->_real--;
+	  
+	return *this;//返回减小后的值
+}
+
+//后置-- 
+
+Complex Complex::operator--(int)   
+{
+	Complex tmp = *this;     //*this自减  
+	this->_image--;
+	this->_real--;
+	 
+	return tmp;//返回减小之前 
+}
+
+//输出  
+void Complex::Display()
+{
+	//输出复数  
+	std::cout << "real:" << _real << std::endl;
+	std::cout << "image:" << _image << std::endl;
+}
