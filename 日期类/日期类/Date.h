@@ -1,25 +1,4 @@
-//Date(int year = 1900, int month = 1, int day = 1);//缺省构造函数
-//Date(const Date& c);//拷贝构造函数
-//Date& operator=(const Date& c);//赋值操作符重载
-//~Date();//析构函数
-//void display();
-//friend int  GetMonthDay(int year, int month);//获得当月天数
-//friend ostream& operator<<(ostream& out, Date& d);//重载<<
-//friend istream& operator>>(istream& in, Date& d);//重载>>
-//Date operator+(int day);//日期对象加上一个天数
-//Date operator-(int day);//日期对象减上一个天数
-//int  operator-(Date  d);//两个日期对象相减求天数
-//Date& operator++();//日期前置++
-//Date operator++(int);//日期后置++
-//Date AddOne(const Date& d);//日期加一天
-//Date& operator+=(int day);//日期对象加等
-//Date& operator-=(int day);//日期对象减等
-//
-//bool operator<(const Date& d);//比较*this对象是否比d日期对象小
-//bool operator>(const Date& d);//比较*this对象是否比d日期对象大
-//bool operator==(const Date& d);//比较*this对象与d日期对象是否相等
-//bool operator<=(const Date& d);//比较*this对象是否比d日期对象小于等于
-//bool operator>=(const Date& d);//比较*this对象是否比d日期对象大于等于
+
 #pragma once
 #include<iostream>
 using namespace std;
@@ -92,7 +71,28 @@ public:
 		}
 		return *this;
 	}
-	int  operator-(Date  d);//两个日期对象相减求天数
+	int  operator-(Date  d)//两个日期对象相减求天数
+	{
+		int Day = 0;
+		Date Temp = *this;
+		if (*this > d)
+		{
+			while (_day > d._day)
+			{
+				d++;
+				Day++;
+			}
+		}
+		else
+		{
+			while (*this < d)
+			{
+				Temp++;
+				Day++;
+			}
+		}
+		return Day;
+	}
 	Date& operator++()//日期前置++
 	{
 		return *this + 1;
@@ -188,6 +188,15 @@ private:
 	int _day;
 };
 
-
+ostream& operator<<(ostream& out, Date& d)//重载<<
+{
+	d.display();
+	return out;
+}
+istream& operator>>(istream& in, Date& d)//重载>>
+{
+	cin >> d._year >> d._month >> d._day;
+	return in;
+}
 
 
