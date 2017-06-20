@@ -1,0 +1,4 @@
+﻿  test.c
+f:\code\seqlist\seqlist\seqlist.h(134): warning C4013: “Find”未定义；假设外部返回 int
+f:\code\seqlist\seqlist\seqlist.h(232): warning C4098: “BinarySearch”:“void”函数返回值
+  seqlist.vcxproj -> F:\Code\seqlist\Debug\seqlist.exe
