@@ -371,6 +371,7 @@ pNode JosephCycle(pNode* pHead, int num)//函数执行的前提条件是链表先构成环
 		pCur->_data = del->_data;
 		pCur->next = del->next;
 		free(del);
+		_num = num;
 	}
 	*pHead = pCur;
 	return pCur;
@@ -394,7 +395,32 @@ void ReverseLinkList(pNode* pHead)
 }
 
 //7.单链表排序（冒泡排序，快排）
+void BubbleSort(pNode* pHead)
+{
+	assert(NULL != pHead);
+	pNode pCur = *pHead;
+	pNode pPrev = NULL;
 
+	int index1 = 0;
+	int index2 = 0;
+
+	while (pCur != pPrev)
+	{
+		while (pCur->next != pPrev)
+		{
+			if (pCur->_data > pCur->next->_data)
+			{
+				DataType tmp = pCur->_data;
+				pCur->_data = pCur->next->_data;
+				pCur->next->_data = tmp;
+			}
+			pCur = pCur->next;
+		}
+		pPrev = pCur;
+		pCur = *pHead;
+	}
+
+}
 
 //8.合并两个有序单链表
 pNode Merge(pNode* pHead1, pNode* pHead2)
@@ -414,7 +440,7 @@ pNode Merge(pNode* pHead1, pNode* pHead2)
 	pNode pCur2 = *pHead2;
 	pNode pNewHead = NULL;
 	//假设为升序合并，判定两个头哪一个作为新链表的头
-	if (pCur1 < pCur2)
+	if (pCur1->_data < pCur2->_data)
 	{
 		pNewHead = pCur1;
 		pCur1 = pCur1->next;
@@ -427,18 +453,17 @@ pNode Merge(pNode* pHead1, pNode* pHead2)
 	pNode prev = pNewHead;
 	while (pCur1&&pCur2)
 	{
-		if (pCur1 < pCur2)
+		if (pCur1->_data < pCur2->_data)
 		{
 			prev->next = pCur1;
-			prev = prev->next;
 			pCur1 = pCur1->next;
 		}
 		else
 		{
 			prev->next = pCur2;
-			prev = prev->next;
 			pCur2 = pCur2->next;
 		}
+		prev = prev->next;
 	}
 	if (NULL == pCur1)
 	{
@@ -449,5 +474,40 @@ pNode Merge(pNode* pHead1, pNode* pHead2)
 		prev->next = pCur1;
 	}
 	return pNewHead;
+}
+
+//9. 查找单链表的中间节点，要求只能遍历一次链表
+pNode FindMidNode(pNode pHead)
+{
+	pNode pFast = pHead;
+	pNode pSlow = pHead;
+
+	while (pFast && pFast->next)
+	{
+		pFast = pFast->next->next;
+		pSlow = pSlow->next;
+	}
+	return pSlow;
+}
+
+//10. 查找单链表的倒数第k个节点，要求只能遍历一次链表
+pNode FindKNode(pNode pHead, int k)
+{
+	pNode pCur = pHead;
+	pNode pPre = pHead;
+	if (GetLinkNode(pHead) < k)
+	{
+		return -1;
+	}
+	while (k--)
+	{
+		pCur = pCur->next;
+	}
+	while (pCur)
+	{
+		pCur = pCur->next;
+		pPre = pPre->next;
+	}
+	return pPre;
 }
 #endif

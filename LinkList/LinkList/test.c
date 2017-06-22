@@ -1,5 +1,56 @@
 #include"LinkList.h"
 
+void Funtest4()
+{
+	//约瑟夫环
+	//冒泡排序
+	Node link;
+	pNode Head = &link;
+	//初始化
+	InitLinkList(&Head);
+	//头插
+	PushBack(&Head, 1);
+	PushBack(&Head, 3);
+	PushBack(&Head, 5);
+	PushBack(&Head, 7);
+	PushBack(&Head, 9);
+	PrintLinkList(Head);
+	pNode pre = Find(Head, 9);
+	pre->next = Head;
+	JosephCycle(&Head, 3);
+
+}
+
+void Funtest3()
+{
+	//冒泡排序
+	Node link;
+	pNode Head = &link;
+	//初始化
+	InitLinkList(&Head);
+	//头插
+	PushBack(&Head, 1);
+	PushBack(&Head, 3);
+	PushBack(&Head, 5);
+	PushBack(&Head, 7);
+	PushBack(&Head, 9);
+	PrintLinkList(Head);
+	//BubbleSort(&Head);
+	//PrintLinkList(Head);
+	Node link2;
+	pNode Head2 = &link2;
+	//初始化
+	InitLinkList(&Head2);
+	//头插
+	PushBack(&Head2, 2);
+	PushBack(&Head2, 4);
+	PushBack(&Head2, 6);
+	PushBack(&Head2, 8);
+	PrintLinkList(Head);
+	Head2 = Merge(&Head, &Head2);
+	PrintLinkList(Head2);
+}
+
 void Funtest2()
 {
 	Node link;
