@@ -287,4 +287,167 @@ void DestroyLinkList(pNode* pHead)
 		free(del);
 	}
 }
+
+/***************面试题接口**********************/
+//1.比较顺序表和链表的优缺点，说说它们分别在什么场景下使用？
+//2. 从尾到头打印单链表
+//3. 删除一个无头单链表的非尾节点（不能遍历链表）
+//4. 在无头单链表的一个非头节点前插入一个节点
+//5. 单链表实现约瑟夫环(JosephCircle)
+//6. 逆置 / 反转单链表
+//7. 单链表排序（冒泡排序&快速排序）
+//8. 合并两个有序链表, 合并后依然有序
+//9. 查找单链表的中间节点，要求只能遍历一次链表
+//10. 查找单链表的倒数第k个节点，要求只能遍历一次链表
+//11. 判断单链表是否带环？若带环，求环的长度？求环的入口点？并计算每个算法的时间复
+//杂度&空间复杂度。
+//12. 判断两个链表是否相交，若相交，求交点。（假设链表不带环）
+//13. 判断两个链表是否相交，若相交，求交点。（假设链表可能带环）【升级版】
+//14. 复杂链表的复制。一个链表的每个节点，有一个指向next指针指向下一个节点，还有一
+//个random指针指向这个链表中的一个随机节点或者NULL，现在要求实现复制这个链表，
+//返回复制后的新链表。
+//15. 求两个已排序单链表中相同的数据。void UnionSet(Node* l1, Node* l2);
+
+//2.从尾到头打印单链表
+void ReversePrintLinkList(pNode pHead)
+{
+	assert(NULL != pHead);
+
+	while (pHead->next != NULL)
+	{
+		ReversePrintLinkList(pHead->next);
+		printf("%d -> ", pHead->_data);
+		return;
+	}
+	printf("%d -> ", pHead->_data);
+
+}
+
+//3. 删除一个无头单链表的非尾节点（不能遍历链表）
+void EraseNotTail(pNode pos)
+{
+	pNode del = pos->next;
+	pos->_data = del->_data;
+	pos->next = del->next;
+	free(del);
+
+}
+
+//4. 在无头单链表的一个非头节点前插入一个节点
+void InsertFrontNode(pNode* pos, DataType data)
+{
+	assert(NULL != pos);
+	pNode pNewNode = BuyNode(data);
+	pNode pCur = *pos;
+	pNewNode->next = pCur->next;
+	pCur->next = pNewNode;
+	DataType tmp = pCur->_data;
+	pCur->_data = pNewNode->_data;
+	pNewNode->_data = tmp;
+
+}
+//5.单链表的约瑟夫环，循环删除第K个节点
+//约瑟夫环（约瑟夫问题）是?个数学的应?问题：
+// 已知n个?（以编号1， 2， 3...n分别表?）围坐在?张//圆桌周围。
+// 从编号为k的?开始报数，数到m的那个?出列；他的下?个?又从1开始报数，数到m的那个?
+// 又出列；依此规律重复下去，直到圆桌周围的?全部出列。
+pNode JosephCycle(pNode* pHead, int num)//函数执行的前提条件是链表先构成环
+{
+	assert(pHead);
+	pNode pCur = *pHead;
+	int _num = num;
+	while (pCur)
+	{
+		//当只有一个节点时，退出
+		if (pCur == pCur->next)
+			break;
+
+		while (--_num)
+		{
+			pCur = pCur->next;
+		}
+		pNode del = pCur->next;
+		printf("删除 ：%d \n", pCur->_data);
+		pCur->_data = del->_data;
+		pCur->next = del->next;
+		free(del);
+	}
+	*pHead = pCur;
+	return pCur;
+}
+
+//6.逆置单链表
+//以头插方式建立新连接，从而逆置
+void ReverseLinkList(pNode* pHead)
+{
+	pNode pCur = *pHead;
+	pNode prev = pCur;
+	pNode pNewNode = NULL;
+	while (pCur != NULL)
+	{
+		pCur = pCur->next;
+		prev->next = pNewNode;
+		pNewNode = prev;
+		prev = pCur;
+	}
+	*pHead = pNewNode;
+}
+
+//7.单链表排序（冒泡排序，快排）
+
+
+//8.合并两个有序单链表
+pNode Merge(pNode* pHead1, pNode* pHead2)
+{
+	assert(pHead1&&pHead2);//1.两者均为空
+
+	//2.其中一个为空
+	if (pHead1 != NULL && pHead2 == NULL)
+	{
+		return *pHead1;
+	}
+	else if (pHead1 == NULL && pHead2 != NULL)
+	{
+		return *pHead2;
+	}
+	pNode pCur1 = *pHead1;
+	pNode pCur2 = *pHead2;
+	pNode pNewHead = NULL;
+	//假设为升序合并，判定两个头哪一个作为新链表的头
+	if (pCur1 < pCur2)
+	{
+		pNewHead = pCur1;
+		pCur1 = pCur1->next;
+	}
+	else
+	{
+		pNewHead = pCur2;
+		pCur2 = pCur2->next;
+	}
+	pNode prev = pNewHead;
+	while (pCur1&&pCur2)
+	{
+		if (pCur1 < pCur2)
+		{
+			prev->next = pCur1;
+			prev = prev->next;
+			pCur1 = pCur1->next;
+		}
+		else
+		{
+			prev->next = pCur2;
+			prev = prev->next;
+			pCur2 = pCur2->next;
+		}
+	}
+	if (NULL == pCur1)
+	{
+		prev->next = pCur2;
+	}
+	else
+	{
+		prev->next = pCur1;
+	}
+	return pNewHead;
+}
 #endif

@@ -1,5 +1,25 @@
 #include"LinkList.h"
 
+void Funtest2()
+{
+	Node link;
+	pNode Head = &link;
+	//初始化
+	InitLinkList(&Head);
+	//头插
+	PushBack(&Head, 1);
+	PushBack(&Head, 2);
+	PushBack(&Head, 3);
+	PushBack(&Head, 4);
+	PrintLinkList(Head);
+	//链表逆置
+	//ReverseLinkList(&Head);
+	//PrintLinkList(Head);
+	//逆序打印
+	ReversePrintLinkList(Head);
+}
+
+
 void FunTest()
 {
 	Node link;
