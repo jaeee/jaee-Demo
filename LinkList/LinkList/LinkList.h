@@ -510,4 +510,186 @@ pNode FindKNode(pNode pHead, int k)
 	}
 	return pPre;
 }
+
+//11. 判断单链表是否带环？若带环，求环的长度？求环的入口点？并计算每个算法的时间复
+//杂度&空间复杂度。
+//12. 判断两个链表是否相交，若相交，求交点。（假设链表不带环）
+//13. 判断两个链表是否相交，若相交，求交点。（假设链表可能带环）【升级版】
+//14. 复杂链表的复制。一个链表的每个节点，有一个指向next指针指向下一个节点，还有一
+//个random指针指向这个链表中的一个随机节点或者NULL，现在要求实现复制这个链表，
+//返回复制后的新链表。
+//15. 求两个已排序单链表中相同的数据。void UnionSet(Node* l1, Node* l2);
+
+
+//11. 判断单链表是否带环？若带环，求环的长度？求环的入口点？并计算每个算法的时间复
+//杂度&空间复杂度。
+//1)判断带环
+pNode CheckCircle(pNode pHead)
+{
+	//判断是否只有一个节点
+	if (pHead->next == NULL)
+	{
+		return NULL;
+	}
+	pNode pFast = pHead;
+	pNode pSlow = pHead;
+
+	while (pFast)
+	{
+		pFast = pFast->next->next;
+		pSlow = pSlow->next;
+		if (pFast == pSlow)
+			return pFast;
+	}
+	return NULL;
+}
+//2）求环的长度
+int GetCircleLength(pNode Meet)
+{
+	pNode pCur = Meet;
+	int len = 0;
+	do
+	{
+		pCur = pCur->next;
+		len++;
+	} while (pCur != Meet);
+	return len;
+}
+//3)求环的入口点 x = nl-y
+pNode GetCircleEnterNode(pNode pHead, pNode Meet)
+{
+	pNode pFast = Meet;//快的从相遇点开始走
+	pNode pSlow = pHead;
+
+	while (pFast != pSlow)
+	{
+		pSlow = pSlow->next;
+		pFast = pFast->next->next;
+	}
+	return pFast;
+}
+
+//12. 判断两个链表是否相交，若相交，求交点。（假设链表不带环）
+//首先判断是否相交
+int Check_Cross(pNode pHead1, pNode pHead2)
+{
+	pNode pList1 = pHead1;
+	pNode pList2 = pHead2;
+	if (pHead1 == NULL || pHead2 == NULL)
+	{
+		return 1;
+	}
+	while (pList1->next != NULL)
+	{
+		pList1 = pList1->next;
+	}
+	while (pList2 != NULL)
+	{
+		pList2 = pList2->next;
+	}
+	if (pList1 == pList2)
+		return 1;
+	return -1;
+}
+//相交，求交点
+//第一种
+pNode Get_Link_CrossNode(pNode pHead1,pNode pHead2)
+{
+	pNode pList1 = pHead1;
+	pNode pList2 = pHead2;
+
+	int len1 = GetLinkNode(pHead1);
+	int len2 = GetLinkNode(pHead2);
+	int length = len1 - len2;
+
+	if (length > 0)
+	{
+		//说明len1>len2
+		while (length--)
+		{
+			pList1 = pList1->next;
+		}
+		while (pList1 != pList2)
+		{
+			pList1 = pList1->next;
+			pList2 = pList2->next;
+		}
+	}
+	else
+	{
+		length = (- length);
+		while (length--)
+		{
+			pList2 = pList2->next;
+		}
+		while (pList1 != pList2)
+		{
+			pList1 = pList1->next;
+			pList2 = pList2->next;
+		}
+	}
+	return pList1;
+}
+//第二种：
+pNode _Get_Link_CrossNode(pNode pHead1, pNode pHead2)
+{
+	pNode pList1 = pHead1;
+	pNode pList2 = pHead2;
+
+	//遍历第一个链表到节点位置，让L1的尾节点指向L2头部构成环
+	while (pList1->next != NULL)
+	{
+		pList1 = pList1->next;
+	}
+	pList1->next = pList2;
+	//此时pHead1成为带环链表的入口点
+	return GetCircleEnterNode(pHead1, CheckCircle(pHead1));
+}
+//13. 判断两个链表是否相交，若相交，求交点。（假设链表可能带环）【升级版】
+//先判断L1、L2是否相交
+int _Check_Cross(pNode pHead1, pNode pHead2)
+{
+	pNode Meet1 = CheckCircle(pHead1);//环中相遇点
+	pNode Meet2 = CheckCircle(pHead2);
+
+	if ((Meet1 == NULL && Meet2 != NULL) || (Meet2 == NULL && Meet1 != NULL))
+	{
+		return -1;//一条带环一条不带
+	}
+	else//两条都带环
+	{
+		pNode pCur = Meet1;
+		do
+		{
+			pCur = pCur->next;
+			if (pCur == Meet2)
+			{
+				return 1;//相交，并且找到一个节点
+			}
+		} while (Meet1 != pCur);
+	}
+	return -1;// 两个带环的链表不相交
+}
+//求两个相交带环链表的节点(有两个相交节点)
+//第一种情况 一个在环内 一个在环外
+//第二种情况 两个都在环内
+void Get_Link_CrossCircleNode(pNode pHead1, pNode pHead2)
+{
+	pNode meet1 = GetCircleEnterNode(pHead1, CheckCircle(pHead1));
+	pNode meet2 = GetCircleEnterNode(pHead2, CheckCircle(pHead2));
+
+	if (meet1 == meet2)//一个在环内一个在环外
+	{
+		pNode pCur = _Get_Link_CrossNode(pHead1, pHead2);//此函数在12题中有写
+		printf("交点一： %d  交点二： %d\n", meet1->_data, pCur->_data);
+	}
+	else//两个点都在环内
+	{
+		pNode p1 = CheckCircle(pHead1);
+		pNode p2 = CheckCircle(pHead2);
+		printf("交点一： %d  交点二： %d\n", p1->_data, p2->_data);
+	}
+}
+
+
 #endif
