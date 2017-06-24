@@ -476,6 +476,29 @@ pNode Merge(pNode* pHead1, pNode* pHead2)
 	return pNewHead;
 }
 
+
+//递归 同样的原理 用递归可以让代码更加简洁
+pNode _Merge(pNode pHead1, pNode pHead2)
+{
+	//一定将pNewHead放前面，容易报错（提示变量未定义）
+	pNode pNewHead = NULL;
+	if (pHead1 == NULL)
+		return pHead1;
+	if (pHead2 == NULL)
+		return pHead2;
+
+	if (pHead1->_data < pHead2->_data)
+	{
+		pNewHead = pHead1;
+		pNewHead->next = _Merge(pHead1->next, pHead2);
+	}
+	else
+	{
+		pNewHead = pHead2;
+		pNewHead->next = _Merge(pHead1, pHead2->next);
+	}
+	return pNewHead;
+}
 //9. 查找单链表的中间节点，要求只能遍历一次链表
 pNode FindMidNode(pNode pHead)
 {
