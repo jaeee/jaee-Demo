@@ -1,0 +1,9 @@
+﻿  test.cpp
+f:\code\stack\stack\stack.h(94): warning C4018: “<”: 有符号/无符号不匹配
+          f:\code\stack\stack\stack.h(92): 编译类 模板 成员函数“void Stack<int>::Print(void)”时
+          f:\code\stack\stack\test.cpp(16): 参见对正在编译的函数 模板 实例化“void Stack<int>::Print(void)”的引用
+          f:\code\stack\stack\test.cpp(5): 参见对正在编译的类 模板 实例化“Stack<int>”的引用
+f:\code\stack\stack\stack.h(111): warning C4018: “<”: 有符号/无符号不匹配
+          f:\code\stack\stack\stack.h(107): 编译类 模板 成员函数“void Stack<int>::CheckCapacity(void)”时
+          f:\code\stack\stack\stack.h(73): 参见对正在编译的函数 模板 实例化“void Stack<int>::CheckCapacity(void)”的引用
+  Stack.vcxproj -> F:\Code\Stack\Debug\Stack.exe
