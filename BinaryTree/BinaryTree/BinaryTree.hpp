@@ -25,10 +25,10 @@ public:
 		:_root(NULL)
 	{}
 	//先序遍历建立二叉树
-	BinaryTree(T* arr, int size)
+	BinaryTree(T* arr, int size,const T& invalid)
 	{
 		int index = 0;
-		_root = _CreateBinaryTree(arr, index, size);
+		_root = _CreateBinaryTree(arr, index, size, invalid);
 	}
 	//拷贝构造函数
 	BinaryTree(const BinaryTree<T>& t)
@@ -83,17 +83,17 @@ public:
 	}
 protected:
 	//创建二叉树函数
-	BinaryTreeNode<T>* _CreateBinaryTree(const T* arr, int& index, int size)
+	BinaryTreeNode<T>* _CreateBinaryTree(const T* arr, int& index, int size, const T& invalid)
 	{
 		//先序遍历创建 
 		//若插入个数==数据个数则退出/或者数据为空（#）
 		BinaryTreeNode<T>* root = NULL;
-		if (index < size && arr[index] != -1)
+		if (index < size && arr[index] != invalid)
 		{
 			//递归创建
 			root = new BinaryTreeNode<T>(arr[index]);
-			root->_left = _CreateBinaryTree(arr, ++index, size);//先创建左子树节点
-			root->_right = _CreateBinaryTree(arr, ++index, size);//再创建右子树节点
+			root->_left = _CreateBinaryTree(arr, ++index, size, invalid);//先创建左子树节点
+			root->_right = _CreateBinaryTree(arr, ++index, size, invalid);//再创建右子树节点
 		}
 		return root;
 	}
@@ -144,8 +144,8 @@ protected:
 	{
 		if (root)
 		{
-			_InOrder(root->_left);
-			_InOrder(root->_right);
+			_PostOrder(root->_left);
+			_PostOrder(root->_right);
 			cout << root->_value << " ";
 		}
 	}
@@ -171,9 +171,9 @@ protected:
 	//计算节点个数
 	size_t _Size(BinaryTreeNode<T>* root)
 	{
-		if (root)
+		if (root == NULL)
 			return 0;
-		return 1 + _Size(root->_left) + _Size(root->_right);
+		return _Size(root->_left) + _Size(root->_right) + 1;
 	}
 	//计算二叉树深度
 	size_t _Depth(BinaryTreeNode<T>* root)
@@ -184,6 +184,7 @@ protected:
 			int leftdepth = _Depth(root->_left);
 			int rightdepth = _Depth(root->_right);
 			depth = leftdepth > rightdepth ? leftdepth + 1 : rightdepth + 1;
+			return depth;
 		}
 		return depth;
 	}
