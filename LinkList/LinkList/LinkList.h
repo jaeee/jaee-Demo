@@ -29,7 +29,7 @@ typedef int DataType;
 typedef struct LinkNode
 {
 	DataType _data;
-	struct LinkNode* nedatat;
+	struct LinkNode* next;
 }Node,*pNode;
 
 //为新节点开辟空间
@@ -37,7 +37,7 @@ pNode BuyNode(DataType data)
 {
 	pNode tmp = (pNode)malloc(sizeof(Node));
 	tmp->_data = data;
-	tmp->nedatat = NULL;
+	tmp->next = NULL;
 	return tmp;
 }
 
@@ -56,7 +56,7 @@ void PrintLinkList(pNode pHead)
 	while (pCur != NULL)
 	{
 		printf("%d ->", pCur->_data);
-		pCur = pCur->nedatat;
+		pCur = pCur->next;
 	}
 	printf("\n");
 }
@@ -73,11 +73,11 @@ void PushBack(pNode* pHead, DataType data)
 	else
 	{
 		
-		while (NULL != pCur->nedatat)
+		while (NULL != pCur->next)
 		{
-			pCur = pCur->nedatat;
+			pCur = pCur->next;
 		}
-		pCur->nedatat = BuyNode(data);
+		pCur->next = BuyNode(data);
 	}
 
 }
@@ -93,7 +93,7 @@ void PopBack(pNode* pHead)
 		printf("链表是空的\n");
 		return;
 	}
-	else if (NULL == pCur->nedatat)
+	else if (NULL == pCur->next)
 	{
 		free(pCur);
 		*pHead = NULL;
@@ -102,12 +102,12 @@ void PopBack(pNode* pHead)
 	{
 	    pCur = *pHead;
 		pNode pre = NULL;
-		while (NULL != pCur->nedatat)
+		while (NULL != pCur->next)
 		{
 			pre = pCur;
-			pCur = pCur->nedatat;
+			pCur = pCur->next;
 		}
-		pre->nedatat = NULL;
+		pre->next = NULL;
 		free(pCur);
 		pCur = NULL;
 	}
@@ -118,7 +118,7 @@ void PushFront(pNode* pHead, DataType data)
 	assert(NULL != pHead);
 	pNode pCur;
 	pCur = BuyNode(data);
-	pCur->nedatat = *pHead;
+	pCur->next = *pHead;
 	*pHead = pCur;
 }
 //头删
@@ -131,7 +131,7 @@ void PopFront(pNode* pHead, DataType data)
 		printf("链表是空的\n");
 		return;
 	}
-	else if (NULL == pCur->nedatat)
+	else if (NULL == pCur->next)
 	{
 		free(pCur);
 		*pHead = NULL;
@@ -139,7 +139,7 @@ void PopFront(pNode* pHead, DataType data)
 	else
 	{
 		pNode pre = *pHead;
-		pre = pre->nedatat;
+		pre = pre->next;
 		*pHead = pre;
 		free(pCur);
 		pCur = NULL;
@@ -157,7 +157,7 @@ pNode Find(pNode pHead, DataType data)
 		}
 		else
 		{
-			pCur = pCur->nedatat;
+			pCur = pCur->next;
 		}
 	}
 	printf("没有这个数\n");
@@ -168,7 +168,7 @@ void Erase(pNode* pHead, pNode pos)
 {
 	assert(NULL != pHead);
 	pNode pCur = *pHead;
-	if (pCur == pos && pCur->nedatat == NULL)
+	if (pCur == pos && pCur->next == NULL)
 	{
 		free(pCur);
 		*pHead = NULL;
@@ -176,14 +176,14 @@ void Erase(pNode* pHead, pNode pos)
 	}
 	else
 	{
-		while (pCur->nedatat != pos && pCur)
+		while (pCur->next != pos && pCur)
 		{
-			pCur = pCur->nedatat;
+			pCur = pCur->next;
 		}
 		if (pCur)
 		{
-			pNode pre = pCur->nedatat;
-			pCur->nedatat = pre->nedatat;
+			pNode pre = pCur->next;
+			pCur->next = pre->next;
 			free(pre);
 		}
 		else
@@ -195,9 +195,9 @@ void Erase(pNode* pHead, pNode pos)
 //无头指针删除,可采用拷贝下一个结点数据，删除下一个结点
 void EraseNoTail(pNode* pHead, pNode pos)
 {
-	pNode del = pos->nedatat;
+	pNode del = pos->next;
 	pos->_data = del->_data;
-	pos->nedatat = del->nedatat;
+	pos->next = del->next;
 	free(del);
 	
 }
@@ -210,20 +210,20 @@ void Remove(pNode* pHead, DataType data)
 	//如果是头结点
 	if (pCur->_data == data)
 	{
-		*pHead = pCur->nedatat;
+		*pHead = pCur->next;
 		free(pCur);
 		return;
 	}
 	else
 	{
-		while (pCur && pCur->nedatat->_data != data)
+		while (pCur && pCur->next->_data != data)
 		{
-			pCur = pCur->nedatat;
+			pCur = pCur->next;
 		}
 		if (pCur)
 		{
-			pNode pre = pCur->nedatat;
-			pCur->nedatat = pre->nedatat;
+			pNode pre = pCur->next;
+			pCur->next = pre->next;
 			free(pre);
 			return;
 		}
@@ -235,7 +235,7 @@ void Remove(pNode* pHead, DataType data)
 void RemoveAll(pNode* pHead, DataType data)
 {
 	pNode pCur = *pHead;
-	if (pCur->_data == data && pCur->nedatat == NULL)
+	if (pCur->_data == data && pCur->next == NULL)
 	{
 		free(pCur);
 		*pHead = NULL;
@@ -250,13 +250,13 @@ void RemoveAll(pNode* pHead, DataType data)
 		while (pCur && pCur->_data != data)
 		{
 			pre = pCur;
-			pCur = pCur->nedatat;
+			pCur = pCur->next;
 		}
 		if (pCur)
 		{
-			pre->nedatat = pCur->nedatat;
+			pre->next = pCur->next;
 			free(pCur);
-			pCur = pre->nedatat;
+			pCur = pre->next;
 		}
 		else
 			return;
@@ -269,7 +269,7 @@ int GetLinkNode(pNode pHead)
 	int number = 0;
 	while (pCur != NULL)
 	{
-		pCur = pCur->nedatat;
+		pCur = pCur->next;
 		number++;
 	}
 	return number;
@@ -282,7 +282,7 @@ void DestroyLinkList(pNode* pHead)
 	while (del)
 	{
 		del = *pHead;
-		pCur = pCur->nedatat;
+		pCur = pCur->next;
 		*pHead = pCur;
 		free(del);
 	}
@@ -321,6 +321,15 @@ void ReversePrintLinkList(pNode pHead)
 	}
 	printf("%d -> ", pHead->_data);
 
+}
+void ReversePrint(pNode pHead)
+{
+	assert(pHead);
+
+	if (pHead->next != NULL)
+		ReversePrint(pHead->next);
+
+	printf("%d -> ", pHead->_data);
 }
 
 //3. 删除一个无头单链表的非尾节点（不能遍历链表）

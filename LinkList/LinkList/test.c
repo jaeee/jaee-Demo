@@ -67,7 +67,8 @@ void Funtest2()
 	//ReverseLinkList(&Head);
 	//PrintLinkList(Head);
 	//ÄæĞò´òÓ¡
-	ReversePrintLinkList(Head);
+	//ReversePrintLinkList(Head);
+	ReversePrint(Head);
 }
 
 
@@ -120,7 +121,7 @@ void FunTest()
 
 int main()
 {
-	FunTest();
+	Funtest2();
 	system("pause");
 	return 0;
 }
